@@ -182,4 +182,3 @@ spec:
     name: 999-working-logs-long
   trigger:
     type: manual
-  serviceAccount: 'default'
