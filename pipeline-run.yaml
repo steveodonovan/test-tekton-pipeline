@@ -1,0 +1,185 @@
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task1
+spec:
+  steps:
+  - name: task-one-step-one
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'for i in {1..3}; do echo GONLOGGIN 1 && sleep 3; done;'] # tests that targetpath works
+  - name: task-one-step-two
+    image: ubuntu
+    command: ['bash']
+    args: ['-c', 'for i in {1..3}; do echo GONLOGGIN 2 && sleep 3; done;'] 
+---
+# Reads a file from a predefined path in the workspace git PipelineResource
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task2
+spec:
+  steps:
+  - name: task-two-step-one
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'for i in {1..3}; do echo GONLOGGIN 1 && sleep 3; done;'] # tests that targetpath works
+  - name: task2step-two
+    image: ubuntu
+    command: ['bash']
+    args: ['-c', 'for i in {1..3}; do echo GONLOGGIN 2 && sleep 3; done;'] 
+  - name: task-two-tep-three
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'for i in {1..3}; do echo GONLOGGIN 1 && sleep 3; done;'] # tests that targetpath works
+  - name: task-two-step-four
+    image: ubuntu
+    command: ['bash']
+    args: ['-c', 'for i in {1..3}; do echo GONLOGGIN 2 && sleep 3; done;'] 
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task3
+spec:
+  steps:
+  - name: task-three-step-one
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'for i in {1..3}; do echo GONLOGGIN 1 && sleep 3; done;'] # tests that targetpath works
+  - name: task-three-step-two
+    image: ubuntu
+    command: ['bash']
+    args: ['-c', 'for i in {1..3}; do echo GONLOGGIN 2 && sleep 3; done;'] 
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task4
+spec:
+  steps:
+  - name: task4step1
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'for i in {1..3}; do echo GONLOGGIN 1 && sleep 3; done;'] # tests that targetpath works
+  - name: task4step2
+    image: ubuntu
+    command: ['bash']
+    args: ['-c', 'for i in {1..3}; do echo GONLOGGIN 2 && sleep 3; done;'] 
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task5
+spec:
+  steps:
+  - name: task5step1
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'for i in {1..3}; do echo GONLOGGIN 1 && sleep 3; done;'] # tests that targetpath works
+  - name: task5step2
+    image: ubuntu
+    command: ['bash']
+    args: ['-c', 'for i in {1..3}; do echo GONLOGGIN 2 && sleep 3; done;'] 
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task5
+spec:
+  steps:
+  - name: task5step1
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'for i in {1..3}; do echo GONLOGGIN 1 && sleep 3; done;'] # tests that targetpath works
+  - name: task5step2
+    image: ubuntu
+    command: ['bash']
+    args: ['-c', 'for i in {1..3}; do echo GONLOGGIN 2 && sleep 3; done;'] 
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task6
+spec:
+  steps:
+  - name: task6step1
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'for i in {1..2}; do echo GONLOGGIN 1 && sleep 3; done;'] # tests that targetpath works
+  - name: task6step2
+    image: ubuntu
+    command: ['bash']
+    args: ['-c', 'for i in {1..2}; do echo GONLOGGIN 2 && sleep 3; done;'] 
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task7
+spec:
+  steps:
+  - name: task7step1
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'for i in {1..3}; do echo GONLOGGIN 1 && sleep 3; done;'] # tests that targetpath works
+  - name: task7step2
+    image: ubuntu
+    command: ['bash']
+    args: ['-c', 'for i in {1..3}; do echo GONLOGGIN 2 && sleep 3; done;']
+  - name: task7step3
+    image: ubuntu
+    command: ['bash']
+    args: ['-c', 'for i in {1..3}; do echo GONLOGGIN 2 && sleep 3; done;']
+  - name: task7step4
+    image: ubuntu
+    command: ['bash']
+    args: ['-c', 'for i in {1..3}; do echo GONLOGGIN 2 && sleep 3; done;']
+  - name: task7step5
+    image: ubuntu
+    command: ['bash']
+    args: ['-c', 'for i in {1..3}; do echo GONLOGGIN 2 && sleep 3; done;'] 
+---
+#The Output of the first Task (git resource) create-file is given as an `Input`
+# to the next `Task` check-stuff-file-exists using`from` clause.
+
+apiVersion: tekton.dev/v1alpha1
+kind: Pipeline
+metadata:
+  name: 999-working-logs-long
+spec:
+  tasks:
+  - name: task1
+    taskRef:
+      name: task1
+  - name: task2
+    runAfter: [task1]
+    taskRef:
+      name: task2
+  - name: task3
+    taskRef:
+      name: task3
+  - name: task4
+    runAfter: [task3]
+    taskRef:
+      name: task3
+  - name: task5
+    runAfter: [task4]
+    taskRef:
+      name: task5
+  - name: task6
+    taskRef:
+      name: task6
+  - name: task7
+    taskRef:
+      name: task7
+---
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineRun
+metadata:
+  name: gone-runnin-999-cancel-me2-jerh1
+spec:
+  pipelineRef:
+    name: 999-working-logs-long
+  trigger:
+    type: manual
+  serviceAccount: 'default'
