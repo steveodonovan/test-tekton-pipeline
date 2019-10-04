@@ -98,7 +98,7 @@ spec:
     args: ['-c', 'for i in {1..2}; do echo GONLOGGIN 2 && sleep 3; done;'] 
 ---
 apiVersion: tekton.dev/v1alpha1
-kind: TaskKA
+kind: Task
 metadata:
   name: task7
 spec:
@@ -173,7 +173,7 @@ spec:
       description: The message to print
       default: This is the default message
   resourcetemplates:
-    - apiVersion: tekton.dev/v1alpha1
+    - apiVersion: tekton.dev.what/v1alpha1
       kind: PipelineResource
       metadata:
         name: git-source-$(uid)
