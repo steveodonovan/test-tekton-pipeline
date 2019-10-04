@@ -127,7 +127,7 @@ spec:
 #The Output of the first Task (git resource) create-file is given as an `Input`
 # to the next `Task` check-stuff-file-exists using`from` clause.
 
-apiVersion: tekton.dev/v1alpha1
+apiVersion: tekton.dev/v1alpha1SOBROKEN
 kind: Pipeline
 metadata:
   name: 999-working-logs-long
