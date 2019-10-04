@@ -187,16 +187,6 @@ spec:
           value: $(params.gitrevision)
         - name: url
           value: $(params.gitrepositoryurl)
-    - apiVersion: tekton.dev/v1alpha1
-      kind: PipelineRun
-      metadata:
-        generateName: cutting-down-trees-run
-        labels:
-          triggertemplated: "true"
-          generatedBy: "triggers-example"
-      spec:
-        pipelineRef:
-          name: 999-working-logs-long
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: TriggerBinding
