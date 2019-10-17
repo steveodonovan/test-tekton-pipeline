@@ -4,14 +4,14 @@ metadata:
   name: task1
 spec:
   steps:
-    - name: task-one-step-one
+    - name: task-two-step-one
       image: ubuntu
       command: ["/bin/bash"]
-      args: ['-c', 'for i in {1..20}; do echo logging 1 && sleep 2; done;']
-    - name: task-one-step-two
+      args: ['-c', 'echo task 1 step 1;']
+    - name: task2step-two
       image: ubuntu
       command: ['bash']
-      args: ['-c', 'for i in {1..20}; do echo logging 2 && sleep 2; done;']
+      args: ['-c', 'echo task 1 step 2;']
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: Task
@@ -22,19 +22,11 @@ spec:
     - name: task-two-step-one
       image: ubuntu
       command: ["/bin/bash"]
-      args: ['-c', 'for i in {1..3}; do echo logging 1 && sleep 3; done;'] # tests that targetpath works
+      args: ['-c', 'echo task 2 step 1;']
     - name: task2step-two
       image: ubuntu
       command: ['bash']
-      args: ['-c', 'for i in {1..3}; do echo logging 2 && sleep 3; done;']
-    - name: task-two-tep-three
-      image: ubuntu
-      command: ["/bin/bash"]
-      args: ['-c', 'for i in {1..3}; do echo logging 1 && sleep 3; done;'] # tests that targetpath works
-    - name: task-two-step-four
-      image: ubuntu
-      command: ['bash']
-      args: ['-c', 'for i in {1..3}; do echo logging 2 && sleep 3; done;']
+      args: ['-c', 'echo task 2 step 2;']
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: Pipeline
