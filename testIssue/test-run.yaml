@@ -1,0 +1,57 @@
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task-deployment
+spec:
+  inputs:
+    params:
+      - name: DEPLOYMENTS_REPO_BRANCH
+  steps:
+    - name: deployment
+      image: ibmcom/otc-deliver-base
+      env:
+        - name: DEPLOYMENTS_REPO_BRANCH
+          value: $(inputs.params.DEPLOYMENTS_REPO_BRANCH)
+      command: ["/bin/sh", "-c"]
+      args:
+        - echo $DEPLOYMENTS_REPO_BRANCH
+---
+apiVersion: tekton.dev/v1alpha1
+kind: TriggerTemplate
+metadata:
+  name: template
+spec:
+  params:
+    - name: gitrevision
+    - name: DEPLOYMENTS_REPO_BRANCH
+  resourcetemplates:
+    - apiVersion: tekton.dev/v1alpha1
+      kind: PipelineRun
+      metadata:
+        name: deployment-$(uid)
+      spec:
+        pipelineRef:
+            name: pipeline-deployment-staging
+        params:
+          - name: DEPLOYMENTS_REPO_BRANCH
+            value: $(params.gitrevision)
+---
+apiVersion: tekton.dev/v1alpha1
+kind: TriggerBinding
+metadata:
+  name: binding
+spec:
+  params:
+    - name: gitrevision
+      value: $(event)
+---
+apiVersion: tekton.dev/v1alpha1
+kind: EventListener
+metadata:
+  name: listener
+spec:
+  triggers:
+    - binding:
+        name: binding
+      template:
+        name: template
