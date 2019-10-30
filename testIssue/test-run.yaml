@@ -17,6 +17,21 @@ spec:
         - echo $DEPLOYMENTS_REPO_BRANCH && echo test
 ---
 apiVersion: tekton.dev/v1alpha1
+kind: Pipeline
+metadata:
+  name: pipeline-deployment-staging
+spec:
+  params:
+    - name: DEPLOYMENTS_REPO_BRANCH
+  tasks:                 
+    - name: sydney
+      taskRef:
+        name: task-deployment
+      params:
+        - name: DEPLOYMENTS_REPO_BRANCH
+          value: $(params.DEPLOYMENTS_REPO_BRANCH)
+---
+apiVersion: tekton.dev/v1alpha1
 kind: TriggerTemplate
 metadata:
   name: template
