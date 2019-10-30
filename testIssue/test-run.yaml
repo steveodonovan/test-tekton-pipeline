@@ -59,7 +59,7 @@ metadata:
 spec:
   params:
     - name: gitrevision
-      value: $(event)
+      value: test123456
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: EventListener
