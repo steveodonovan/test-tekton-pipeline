@@ -13,6 +13,7 @@ spec:
       command: ['bash']
       args: ['-c', 'echo task 1 step 2;']
 ---
+#COMMENT
 apiVersion: tekton.dev/v1alpha1
 kind: Task
 metadata:
