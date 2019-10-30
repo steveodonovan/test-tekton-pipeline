@@ -14,7 +14,7 @@ spec:
           value: $(inputs.params.DEPLOYMENTS_REPO_BRANCH)
       command: ["/bin/sh", "-c"]
       args:
-        - echo $DEPLOYMENTS_REPO_BRANCH
+        - echo $DEPLOYMENTS_REPO_BRANCH && echo test
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: TriggerTemplate
