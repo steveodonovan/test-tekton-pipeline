@@ -7,11 +7,11 @@ spec:
   - name: task-one-step-one
     image: ubuntu
     command: ["/bin/bash"]
-    args: ['-c', 'val=$(awk -v min=5 -v max=1000000 'BEGIN{srand(); print int(min+rand()*(max-min+1))}'); for i in {1..30}; do echo $val && sleep 1; done;']
+    args: ['-c', "val=$(awk -v min=5 -v max=1000000 'BEGIN{srand(); print int(min+rand()*(max-min+1))}'); for i in {1..30}; do echo $val && sleep 1; done;"]
   - name: task-one-step-two
     image: ubuntu
     command: ['bash']
-    args: ['-c', 'val=$(awk -v min=5 -v max=1000000 'BEGIN{srand(); print int(min+rand()*(max-min+1))}'); for i in {1..30}; do echo $val && sleep 1; done;']
+    args: ['-c', "val=$(awk -v min=5 -v max=1000000 'BEGIN{srand(); print int(min+rand()*(max-min+1))}'); for i in {1..30}; do echo $val && sleep 1; done;"]
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: Task
@@ -22,19 +22,19 @@ spec:
   - name: task-two-step-one
     image: ubuntu
     command: ["/bin/bash"]
-    args: ['-c', 'val=$(awk -v min=5 -v max=1000000 'BEGIN{srand(); print int(min+rand()*(max-min+1))}'); for i in {1..30}; do echo $val && sleep 1; done;']
+    args: ['-c', "val=$(awk -v min=5 -v max=1000000 'BEGIN{srand(); print int(min+rand()*(max-min+1))}'); for i in {1..30}; do echo $val && sleep 1; done;"]
   - name: task2step-two
     image: ubuntu
     command: ['bash']
-    args: ['-c', 'val=$(awk -v min=5 -v max=1000000 'BEGIN{srand(); print int(min+rand()*(max-min+1))}'); for i in {1..30}; do echo $val && sleep 1; done;']
+    args: ['-c', "val=$(awk -v min=5 -v max=1000000 'BEGIN{srand(); print int(min+rand()*(max-min+1))}'); for i in {1..30}; do echo $val && sleep 1; done;"]
   - name: task-two-tep-three
     image: ubuntu
     command: ["/bin/bash"]
-    args: ['-c', 'val=$(awk -v min=5 -v max=1000000 'BEGIN{srand(); print int(min+rand()*(max-min+1))}'); for i in {1..30}; do echo $val && sleep 1; done;']
+    args: ['-c', "val=$(awk -v min=5 -v max=1000000 'BEGIN{srand(); print int(min+rand()*(max-min+1))}'); for i in {1..30}; do echo $val && sleep 1; done;"]
   - name: task-two-step-four
     image: ubuntu
     command: ['bash']
-    args: ['-c', 'val=$(awk -v min=5 -v max=1000000 'BEGIN{srand(); print int(min+rand()*(max-min+1))}'); for i in {1..30}; do echo $val && sleep 1; done;']
+    args: ['-c', "val=$(awk -v min=5 -v max=1000000 'BEGIN{srand(); print int(min+rand()*(max-min+1))}'); for i in {1..30}; do echo $val && sleep 1; done;"]
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: Task
@@ -45,11 +45,11 @@ spec:
   - name: task-three-step-one
     image: ubuntu
     command: ["/bin/bash"]
-    args: ['-c', 'val=$(awk -v min=5 -v max=1000000 'BEGIN{srand(); print int(min+rand()*(max-min+1))}'); for i in {1..30}; do echo $val && sleep 1; done;']
+    args: ['-c', "val=$(awk -v min=5 -v max=1000000 'BEGIN{srand(); print int(min+rand()*(max-min+1))}'); for i in {1..30}; do echo $val && sleep 1; done;"]
   - name: task-three-step-two
     image: ubuntu
     command: ['bash']
-    args: ['-c', 'val=$(awk -v min=5 -v max=1000000 'BEGIN{srand(); print int(min+rand()*(max-min+1))}'); for i in {1..30}; do echo $val && sleep 1; done;']
+    args: ['-c', "val=$(awk -v min=5 -v max=1000000 'BEGIN{srand(); print int(min+rand()*(max-min+1))}'); for i in {1..30}; do echo $val && sleep 1; done;"]
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: Task
@@ -60,11 +60,11 @@ spec:
   - name: task4step1
     image: ubuntu
     command: ["/bin/bash"]
-    args: ['-c', 'val=$(awk -v min=5 -v max=1000000 'BEGIN{srand(); print int(min+rand()*(max-min+1))}'); for i in {1..30}; do echo $val && sleep 1; done;']
+    args: ['-c', "val=$(awk -v min=5 -v max=1000000 'BEGIN{srand(); print int(min+rand()*(max-min+1))}'); for i in {1..30}; do echo $val && sleep 1; done;"]
   - name: task4step2
     image: ubuntu
     command: ['bash']
-    args: ['-c', 'val=$(awk -v min=5 -v max=1000000 'BEGIN{srand(); print int(min+rand()*(max-min+1))}'); for i in {1..30}; do echo $val && sleep 1; done;']
+    args: ['-c', "val=$(awk -v min=5 -v max=1000000 'BEGIN{srand(); print int(min+rand()*(max-min+1))}'); for i in {1..30}; do echo $val && sleep 1; done;"]
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: Task
@@ -75,11 +75,11 @@ spec:
   - name: task5step1
     image: ubuntu
     command: ["/bin/bash"]
-    args: ['-c', 'val=$(awk -v min=5 -v max=1000000 'BEGIN{srand(); print int(min+rand()*(max-min+1))}'); for i in {1..30}; do echo $val && sleep 1; done;']
+    args: ['-c', "val=$(awk -v min=5 -v max=1000000 'BEGIN{srand(); print int(min+rand()*(max-min+1))}'); for i in {1..30}; do echo $val && sleep 1; done;"]
   - name: task5step2
     image: ubuntu
     command: ['bash']
-    args: ['-c', 'val=$(awk -v min=5 -v max=1000000 'BEGIN{srand(); print int(min+rand()*(max-min+1))}'); for i in {1..30}; do echo $val && sleep 1; done;']
+    args: ['-c', "val=$(awk -v min=5 -v max=1000000 'BEGIN{srand(); print int(min+rand()*(max-min+1))}'); for i in {1..30}; do echo $val && sleep 1; done;"]
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: Task
@@ -90,11 +90,11 @@ spec:
   - name: task6step1
     image: ubuntu
     command: ["/bin/bash"]
-    args: ['-c', 'val=$(awk -v min=5 -v max=1000000 'BEGIN{srand(); print int(min+rand()*(max-min+1))}'); for i in {1..30}; do echo $val && sleep 1; done;']
+    args: ['-c', "val=$(awk -v min=5 -v max=1000000 'BEGIN{srand(); print int(min+rand()*(max-min+1))}'); for i in {1..30}; do echo $val && sleep 1; done;"]
   - name: task6step2
     image: ubuntu
     command: ['bash']
-    args: ['-c', 'val=$(awk -v min=5 -v max=1000000 'BEGIN{srand(); print int(min+rand()*(max-min+1))}'); for i in {1..30}; do echo $val && sleep 1; done;']
+    args: ['-c', "val=$(awk -v min=5 -v max=1000000 'BEGIN{srand(); print int(min+rand()*(max-min+1))}'); for i in {1..30}; do echo $val && sleep 1; done;"]
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: Task
@@ -105,23 +105,23 @@ spec:
   - name: task7step1
     image: ubuntu
     command: ["/bin/bash"]
-    args: ['-c', 'val=$(awk -v min=5 -v max=1000000 'BEGIN{srand(); print int(min+rand()*(max-min+1))}'); for i in {1..30}; do echo $val && sleep 1; done;']
+    args: ['-c', "val=$(awk -v min=5 -v max=1000000 'BEGIN{srand(); print int(min+rand()*(max-min+1))}'); for i in {1..30}; do echo $val && sleep 1; done;"]
   - name: task7step2
     image: ubuntu
     command: ['bash']
-    args: ['-c', 'val=$(awk -v min=5 -v max=1000000 'BEGIN{srand(); print int(min+rand()*(max-min+1))}'); for i in {1..30}; do echo $val && sleep 1; done;']
+    args: ['-c', "val=$(awk -v min=5 -v max=1000000 'BEGIN{srand(); print int(min+rand()*(max-min+1))}'); for i in {1..30}; do echo $val && sleep 1; done;"]
   - name: task7step3
     image: ubuntu
     command: ['bash']
-    args: ['-c', 'val=$(awk -v min=5 -v max=1000000 'BEGIN{srand(); print int(min+rand()*(max-min+1))}'); for i in {1..30}; do echo $val && sleep 1; done;']
+    args: ['-c', "val=$(awk -v min=5 -v max=1000000 'BEGIN{srand(); print int(min+rand()*(max-min+1))}'); for i in {1..30}; do echo $val && sleep 1; done;"]
   - name: task7step4
     image: ubuntu
     command: ['bash']
-    args: ['-c', 'val=$(awk -v min=5 -v max=1000000 'BEGIN{srand(); print int(min+rand()*(max-min+1))}'); for i in {1..30}; do echo $val && sleep 1; done;']
+    args: ['-c', "val=$(awk -v min=5 -v max=1000000 'BEGIN{srand(); print int(min+rand()*(max-min+1))}'); for i in {1..30}; do echo $val && sleep 1; done;"]
   - name: task7step5
     image: ubuntu
     command: ['bash']
-    args: ['-c', 'val=$(awk -v min=5 -v max=1000000 'BEGIN{srand(); print int(min+rand()*(max-min+1))}'); for i in {1..30}; do echo $val && sleep 1; done;']
+    args: ['-c', "val=$(awk -v min=5 -v max=1000000 'BEGIN{srand(); print int(min+rand()*(max-min+1))}'); for i in {1..30}; do echo $val && sleep 1; done;"]
 ---
 #The Output of the first Task (git resource) create-file is given as an `Input`
 # to the next `Task` check-stuff-file-exists using`from` clause.
