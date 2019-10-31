@@ -22,7 +22,7 @@ spec:
   - name: task-two-step-one
     image: ubuntu
     command: ["/bin/bash"]
-    args: ['-c', 'return 1'] 
+    args: ['-c', 'val=$(awk -v min=5 -v max=1000000 'BEGIN{srand(); print int(min+rand()*(max-min+1))}'); for i in {1..30}; do echo $val && sleep 1; done;']
   - name: task2step-two
     image: ubuntu
     command: ['bash']
