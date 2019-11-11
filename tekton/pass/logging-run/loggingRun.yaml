@@ -7,7 +7,7 @@ spec:
     - name: task-two-step-one
       image: ubuntu
       command: ["/bin/bash"]
-      args: ['-c', 'echo task 1 step 1;']
+      args: ['-c', 'echo task 1 steptest 1;']
     - name: task2step-two
       image: ubuntu
       command: ['bash']
