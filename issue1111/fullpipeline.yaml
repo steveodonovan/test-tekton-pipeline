@@ -1,0 +1,231 @@
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task1
+spec:
+  inputs:
+    params:
+      - name: task-pvc
+        description: the output pvc
+      - name: repository
+        description: the git repo
+      - name: revision
+        description: the revision
+        default: master
+  steps:
+    - name: clone-repo
+      image: alpine/git
+      env:
+        - name: REPOSITORY
+          value: $(inputs.params.repository)
+        - name: REVISION
+          value: $(inputs.params.revision)
+      command: ["/bin/sh", "-c"]
+      args:
+        - set -e -o pipefail;
+          echo "Cloning $REPOSITORY";
+          git clone -q -b $REVISION $REPOSITORY .;
+          pwd;
+          ls -lRth .;
+    - name: discovery
+      image: ubuntu
+      imagePullPolicy: Always
+      command: ['bash']
+      args: ['-c', 'echo test'] 
+      volumeMounts:
+        - mountPath: /artifacts
+          name: task-volume
+  volumes:
+    - name: task-volume
+      persistentVolumeClaim:
+        claimName: $(inputs.params.task-pvc)
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task2
+spec:
+  inputs:
+    params:
+      - name: task-pvc
+        description: the output pvc
+      - name: repository
+        description: the git repo
+      - name: revision
+        description: the revision
+        default: master
+      - name: prnumber
+        description: the git pr number
+      - name: apikey
+        description: the ibmcloud api key
+  steps:
+    - name: remediation
+      image: ubuntu
+      imagePullPolicy: Always
+      command: ['bash']
+      args: ['-c', 'echo test'] 
+      volumeMounts:
+        - mountPath: /artifacts
+          name: task-volume
+  volumes:
+    - name: task-volume
+      persistentVolumeClaim:
+        claimName: $(inputs.params.task-pvc)
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task3
+spec:
+  inputs:
+    params:
+      - name: task-pvc
+        description: the output pvc
+      - name: repository
+        description: the git repo
+      - name: revision
+        description: the revision
+        default: master
+      - name: prnumber
+        description: the git pr number
+      - name: apikey
+        description: the ibmcloud api key
+  steps:
+    - name: clone-repo
+      image: alpine/git
+      env:
+        - name: REPOSITORY
+          value: $(inputs.params.repository)
+        - name: REVISION
+          value: $(inputs.params.revision)
+      command: ["/bin/sh", "-c"]
+      args: []
+    - name: stepname
+      image: ubuntu
+      imagePullPolicy: Always
+      command: ['bash']
+      args: ['-c', 'echo test'] 
+      volumeMounts:
+        - mountPath: /artifacts
+          name: task-volume
+  volumes:
+    - name: task-volume
+      persistentVolumeClaim:
+        claimName: $(inputs.params.task-pvc)
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Pipeline
+metadata:
+  name: pipeline
+spec:
+  params:
+    - name: pipeline-pvc
+      description: the pipeline pvc name
+    - name: repository
+      description: the git repo
+    - name: revision
+      description: The git repo revision
+    - name: prnumber
+      description: The pullrequest number
+    - name: apikey
+      description: the ibmcloud api key
+  tasks:
+    - name: task1
+      taskRef:
+        name: task1
+      params:
+        - name: task-pvc
+          value: $(params.pipeline-pvc)
+        - name: repository
+          value: $(params.repository)
+        - name: revision
+          value: $(params.revision)
+    - name: task2
+      runAfter: [task1]
+      taskRef:
+        name: task2
+      params:
+        - name: task-pvc
+          value: $(params.pipeline-pvc)
+        - name: repository
+          value: $(params.repository)
+        - name: revision
+          value: $(params.revision)
+        - name: prnumber
+          value: $(params.prnumber)
+        - name: apikey
+          value: $(params.apikey)
+    - name: task3
+      runAfter: [task2]
+      taskRef:
+        name: task3
+      params:
+        - name: task-pvc
+          value: $(params.pipeline-pvc)
+        - name: repository
+          value: $(params.repository)
+        - name: revision
+          value: $(params.revision)
+        - name: prnumber
+          value: $(params.prnumber)
+        - name: apikey
+          value: $(params.apikey)
+---
+apiVersion: tekton.dev/v1alpha1
+kind: TriggerTemplate
+metadata:
+  name: template
+spec:
+  params:
+    - name: repository
+      description: The git repo
+    - name: revision
+      description: The git repo revision
+      default: master
+    - name: prnumber
+      description: The pullrequest number
+    - name: apikey
+      description: the ibmcloud api key
+  resourcetemplates:
+    - apiVersion: tekton.dev/v1alpha1
+      kind: PipelineRun
+      metadata:
+        name: pipelinerun-$(uid)
+      spec:
+        pipelineRef:
+            name: pipeline
+        params:
+        - name: pipeline-pvc
+          value: pipelinerun-$(uid)-pvc
+        - name: repository
+          value: $(params.repository)
+        - name: revision
+          value: $(params.revision)
+        - name: prnumber
+          value: $(params.prnumber)
+        - name: apikey
+          value: $(params.apikey)
+---
+apiVersion: tekton.dev/v1alpha1
+kind: TriggerBinding
+metadata:
+  name: binding
+spec:
+  params:
+    - name: repository
+      value: "https://steveodonovan/test-tekton-pipeline"
+    - name: revision
+      value: $(event.pull_request.head.ref)
+    - name: prnumber
+      value: $(event.pull_request.url)
+---
+apiVersion: tekton.dev/v1alpha1
+kind: EventListener
+metadata:
+  name: listener
+spec:
+  triggers:
+    - binding:
+        name: binding
+      template:
+        name: template
