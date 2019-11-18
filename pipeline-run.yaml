@@ -14,7 +14,7 @@ spec:
     args: ['-c', 'for i in {1..10}; do echo GONLOGGIN 2 && sleep 3; done;'] 
 ---
 apiVersion: tekton.dev/v1alpha1
-kind: Task
+kind: AnythingButATAsk
 metadata:
   name: task2
 spec:
