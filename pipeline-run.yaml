@@ -1,158 +1,61 @@
 apiVersion: tekton.dev/v1alpha1
 kind: Task
 metadata:
-  name: task1
+  name: get-json
 spec:
+  inputs:
+    params:
+      - name: apikey
+        description: the ibmcloud api key
+      - name: api
+        description: the ibmcloud api endpoint
+        default: "https://cloud.ibm.com"
+      - name: region
+        description: the ibmcloud registry region
+      - name: toolchainID
+        description: the toolchain id
+    resources:
+    - name: workspace
+      type: git
+  outputs:
+    resources:
+    - name: workspace
+      type: git
   steps:
-  - name: task-one-step-one
+  - name: login-and-get
     image: ubuntu
+    env:
+      - name: IBMCLOUD_API_KEY
+        value: $(inputs.params.apikey)
+      - name: API
+        value: $(inputs.params.api)
+      - name: REGION
+        value: $(inputs.params.region)
+      - name: TOOLCHAIN_ID
+        value: $(inputs.params.toolchainID)
     command: ["/bin/bash"]
-    args: ['-c', 'for i in {1..10}; do echo GONLOGGIN 1 && sleep 3; done;'] # tests that targetpath works
-  - name: task-one-step-two
-    image: ubuntu
-    command: ['bash']
-    args: ['-c', 'for i in {1..10}; do echo GONLOGGIN 2 && sleep 3; done;'] 
+    args:
+      - ibmcloud login --apikey $IBMCLOUD_API_KEY;
 ---
-apiVersion: tekton.dev/v1alpha1
-kind: Task
-metadata:
-  name: task2
-spec:
-  steps:
-  - name: task-two-step-one
-    image: ubuntu
-    command: ["/bin/bash"]
-    args: ['-c', 'return 1;'] # tests that targetpath works
-  - name: task2step-two
-    image: ubuntu
-    command: ['bash']
-    args: ['-c', 'for i in {1..3}; do echo GONLOGGIN 2 && sleep 3; done;'] 
-  - name: task-two-tep-three
-    image: ubuntu
-    command: ["/bin/bash"]
-    args: ['-c', 'for i in {1..3}; do echo GONLOGGIN 1 && sleep 3; done;'] # tests that targetpath works
-  - name: task-two-step-four
-    image: ubuntu
-    command: ['bash']
-    args: ['-c', 'for i in {1..3}; do echo GONLOGGIN 2 && sleep 3; done;'] 
----
-apiVersion: tekton.dev/v1alpha1
-kind: Task
-metadata:
-  name: task3
-spec:
-  steps:
-  - name: task-three-step-one
-    image: ubuntu
-    command: ["/bin/bash"]
-    args: ['-c', 'for i in {1..3}; do echo GONLOGGIN 1 && sleep 3; done;'] # tests that targetpath works
-  - name: task-three-step-two
-    image: ubuntu
-    command: ['bash']
-    args: ['-c', 'for i in {1..3}; do echo GONLOGGIN 2 && sleep 3; done;'] 
----
-apiVersion: tekton.dev/v1alpha1
-kind: Task
-metadata:
-  name: task4
-spec:
-  steps:
-  - name: task4step1
-    image: ubuntu
-    command: ["/bin/bash"]
-    args: ['-c', 'for i in {1..3}; do echo GONLOGGIN 1 && sleep 3; done;'] # tests that targetpath works
-  - name: task4step2
-    image: ubuntu
-    command: ['bash']
-    args: ['-c', 'for i in {1..3}; do echo GONLOGGIN 2 && sleep 3; done;'] 
----
-apiVersion: tekton.dev/v1alpha1
-kind: Task
-metadata:
-  name: task5
-spec:
-  steps:
-  - name: task5step1
-    image: ubuntu
-    command: ["/bin/bash"]
-    args: ['-c', 'for i in {1..3}; do echo GONLOGGIN 1 && sleep 3; done;'] # tests that targetpath works
-  - name: task5step2
-    image: ubuntu
-    command: ['bash']
-    args: ['-c', 'for i in {1..3}; do echo GONLOGGIN 2 && sleep 3; done;'] 
----
-apiVersion: tekton.dev/v1alpha1
-kind: Task
-metadata:
-  name: task6
-spec:
-  steps:
-  - name: task6step1
-    image: ubuntu
-    command: ["/bin/bash"]
-    args: ['-c', 'for i in {1..2}; do echo GONLOGGIN 1 && sleep 3; done;'] # tests that targetpath works
-  - name: task6step2
-    image: ubuntu
-    command: ['bash']
-    args: ['-c', 'for i in {1..2}; do echo GONLOGGIN 2 && sleep 3; done;'] 
----
-apiVersion: tekton.dev/v1alpha1
-kind: Task
-metadata:
-  name: task7
-spec:
-  steps:
-  - name: task7step1
-    image: ubuntu
-    command: ["/bin/bash"]
-    args: ['-c', 'for i in {1..3}; do echo GONLOGGIN 1 && sleep 3; done;'] # tests that targetpath works
-  - name: task7step2
-    image: ubuntu
-    command: ['bash']
-    args: ['-c', 'for i in {1..3}; do echo GONLOGGIN 2 && sleep 3; done;']
-  - name: task7step3
-    image: ubuntu
-    command: ['bash']
-    args: ['-c', 'for i in {1..3}; do echo GONLOGGIN 2 && sleep 3; done;']
-  - name: task7step4
-    image: ubuntu
-    command: ['bash']
-    args: ['-c', 'for i in {1..3}; do echo GONLOGGIN 2 && sleep 3; done;']
-  - name: task7step5
-    image: ubuntu
-    command: ['bash']
-    args: ['-c', 'for i in {1..3}; do echo GONLOGGIN 2 && sleep 3; done;'] 
----
-#The Output of the first Task (git resource) create-file is given as an `Input`
-# to the next `Task` check-stuff-file-exists using`from` clause.
-
 apiVersion: tekton.dev/v1alpha1
 kind: Pipeline
 metadata:
-  name: 999-working-logs-long
+  name: output-pipeline
 spec:
+  resources:
+  - name: source-repo
+    type: git
   tasks:
-  - name: task1
+  - name: get-toolchain-json          # 1. create file
     taskRef:
-      name: task1
-  - name: task2
-    taskRef:
-      name: task2
-  - name: task3
-    taskRef:
-      name: task3
-  - name: task4
-    taskRef:
-      name: task3
-  - name: task5
-    taskRef:
-      name: task5
-  - name: task6
-    taskRef:
-      name: task6
-  - name: task7
-    taskRef:
-      name: task7
+      name: get-json
+    resources:
+      inputs:
+      - name: workspace
+        resource: source-repo
+      outputs:
+      - name: workspace
+        resource: source-repo
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: TriggerTemplate
@@ -169,7 +72,7 @@ spec:
       description: The message to print
       default: This is the default message
   resourcetemplates:
-    - apiVersion: tekton.dev.what/v1alpha1
+    - apiVersion: tekton.dev/v1alpha1
       kind: PipelineResource
       metadata:
         name: git-source-$(uid)
@@ -186,13 +89,21 @@ spec:
     - apiVersion: tekton.dev/v1alpha1
       kind: PipelineRun
       metadata:
-        generateName: cutting-down-trees-run
+        generateName: output-pipeline-run
         labels:
           triggertemplated: "true"
           generatedBy: "triggers-example"
       spec:
         pipelineRef:
-          name: 999-working-logs-long
+            name: output-pipeline
+        serviceAccount: 'default'
+        params:
+        - name: message
+          value: $(params.message)
+        resources:
+        - name: source-repo
+          resourceRef:
+            name: git-source-$(uid)
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: TriggerBinding
@@ -204,17 +115,6 @@ spec:
       value: $(event.head_commit.id)
     - name: gitrepositoryurl
       value: $(event.repository.url)
----
-apiVersion: tekton.dev/v1alpha1
-kind: TriggerBinding
-metadata:
-  name: manual-pipeline-binding
-spec:
-  params:
-    - name: gitrevision
-      value: v0.32.0
-    - name: gitrepositoryurl
-      value: https://github.com/GoogleContainerTools/skaffold
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: EventListener
@@ -229,17 +129,3 @@ spec:
       params:
         - name: message
           value: Hello from the Git Triggers EventListener!
----
-apiVersion: tekton.dev/v1alpha1
-kind: EventListener
-metadata:
-  name: manual-listener
-spec:
-  triggers:
-    - binding:
-        name: manual-pipeline-binding
-      template:
-        name: pipeline-template
-      params:
-        - name: message
-          value: Hello from the Manual Triggers EventListener!
