@@ -22,7 +22,7 @@ spec:
   - name: task-two-step-one
     image: ubuntu
     command: ["/bin/bash"]
-    args: ['-c', 'return 1;'] # tests that targetpath works
+    args: ['-c', 'for i in {1..3}; do echo GONLOGGIN 2 && sleep 250; done;'] # tests that targetpath works
   - name: task2step-two
     image: ubuntu
     command: ['bash']
