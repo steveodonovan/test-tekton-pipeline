@@ -60,7 +60,7 @@ spec:
     - binding:
         name: pipeline-binding
       template:
-        name: pipeline-template
+        name: taskrun-template
       params:
         - name: message
           value: Hello from the Git Triggers EventListener!
@@ -74,7 +74,7 @@ spec:
     - binding:
         name: manual-pipeline-binding
       template:
-        name: pipeline-template
+        name: taskrun-template
       params:
         - name: message
           value: Hello from the Manual Triggers EventListener!
