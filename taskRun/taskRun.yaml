@@ -19,15 +19,23 @@ metadata:
   name: taskrun-template
 spec:
   params:
+    - name: gitrevision
+      description: The git revision
+      default: master
+    - name: gitrepositoryurl
+      description: The git repository url
+    - name: message
+      description: The message to print
+      default: This is the default message
   resourcetemplates:
     - apiVersion: tekton.dev/v1alpha1
       kind: TaskRun
       metadata:
         generateName: task-run-success
-  spec:
-    taskRef:
-      name: task-success
-      kind: Task
+      spec:
+        taskRef:
+          name: task-success
+          kind: Task
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: TriggerBinding
