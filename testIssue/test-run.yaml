@@ -17,8 +17,24 @@ spec:
         - echo $DEPLOYMENTS_REPO_BRANCH && echo test
 ---
 #comment 2
-apiVersion: tekton.dev/v1alphaa1
-kind: Pipelinea
+apiVersion: tekton.dev/v1alpha1
+kind: Pipeline
+metadata:
+  name: pipeline-deployment-staging
+spec:
+  params:
+    - name: DEPLOYMENTS_REPO_BRANCH
+  tasks:                 
+    - name: sydney
+      taskRef:
+        name: task-deployment
+      params:
+        - name: DEPLOYMENTS_REPO_BRANCH
+          value: $(params.DEPLOYMENTS_REPO_BRANCH)
+---
+#comment 2
+apiVersion: tekton.dev/v1alpha1
+kind: Pipeline
 metadata:
   name: pipeline-deployment-staging
 spec:
