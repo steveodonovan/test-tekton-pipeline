@@ -17,8 +17,8 @@ spec:
         - echo $DEPLOYMENTS_REPO_BRANCH && echo test
 ---
 #comment 2
-apiVersion: tekton.dev/v1alpha1
-kind: Pipeline
+apiVersion: tekton.dev/v1alphaa1
+kind: Pipelinea
 metadata:
   name: pipeline-deployment-staging
 spec:
