@@ -123,40 +123,6 @@ spec:
     command: ['bash']
     args: ['-c', 'for i in {1..3}; do echo GONLOGGIN 2 && sleep 3; done;'] 
 ---
-#The Output of the first Task (git resource) create-file is given as an `Input`
-# to the next `Task` check-stuff-file-exists using`from` clause.
-
-apiVersion: tekton.dev/v1alpha1
-kind: Pipeline
-metadata:
-  name: 999-working-logs-long
-spec:
-  tasks:
-  - name: task1
-    taskRef:
-      name: task1
-  - name: task2
-    runAfter: [task1]
-    taskRef:
-      name: task2
-  - name: task3
-    taskRef:
-      name: task3
-  - name: task4
-    runAfter: [task3]
-    taskRef:
-      name: task3
-  - name: task5
-    runAfter: [task4]
-    taskRef:
-      name: task5
-  - name: task6
-    taskRef:
-      name: task6
-  - name: task7
-    taskRef:
-      name: task7
----
 apiVersion: tekton.dev/v1alpha1
 kind: TriggerTemplate
 metadata:
