@@ -98,7 +98,7 @@ spec:
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: Task
-metadata:
+mbetadata:
   name: task7
 spec:
   steps:
@@ -134,7 +134,7 @@ spec:
   tasks:
   - name: task1
     taskRef:
-      name: ataskNotThere
+      name: task1
   - name: task2
     taskRef:
       name: task2
