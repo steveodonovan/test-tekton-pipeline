@@ -98,9 +98,9 @@ spec:
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: Task
-mbetadata:
+metadata:
   name: task7
-spec:
+specssba:
   steps:
   - name: task7step1
     image: ubuntu
