@@ -1,0 +1,50 @@
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: hunter-task
+spec: 
+  steps:
+  - name: kube-hunter
+    image: aquasec/kube-hunter 
+    command: ["python", "kube-hunter.py"]
+    args: ["--pod"]
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Pipeline
+metadata:
+  name: pipeline
+spec:
+  tasks:
+    - name: pipeline-hunter-task
+      taskRef:
+        name: hunter-task
+---
+apiVersion: tekton.dev/v1alpha1
+kind: TriggerTemplate
+metadata:
+  name: template
+speac:
+  resourcetemplatersss:
+    - apiVersion: tekton.dev/v1alpha1
+      kind: PipelineRun
+      metadata:
+        name: pipelinerun-test
+      spec:
+        pipelineRef:
+            name: pipeline
+---
+apiVersion: tekton.dev/v1alpha1
+kind: TriggerBinding
+metadata:
+name: binding
+---
+apiVersion: tekton.dev/v1alpha1
+kind: EventListener
+metadaata:
+  name: listener
+speac:
+  triggaers:
+    - binding:
+        name: binding
+      template:
+        name: template
