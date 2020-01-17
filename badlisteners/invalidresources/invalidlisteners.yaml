@@ -40,9 +40,9 @@ name: binding
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: EventListener
-metadaata:
+metadata:
   name: listener
-speac:
+spec:
   triggers:
     - binding:
         name: binding
