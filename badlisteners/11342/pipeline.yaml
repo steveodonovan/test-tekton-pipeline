@@ -44,7 +44,5 @@ metadata:
   name: listener
 spec:
   triggers:
-    - binding:
-        name: binding
-      template:
+    - template:
         name: template
