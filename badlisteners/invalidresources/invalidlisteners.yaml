@@ -43,7 +43,7 @@ kind: EventListener
 metadaata:
   name: listener
 speac:
-  triggaers:
+  triggers:
     - binding:
         name: binding
       template:
