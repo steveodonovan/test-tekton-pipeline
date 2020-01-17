@@ -23,7 +23,7 @@ apiVersion: tekton.dev/v1alpha1
 kind: TriggerTemplate
 metadata:
   name: template
-speac:
+spec:
   resourcetemplatersss:
     - apiVersion: tekton.dev/v1alpha1
       kind: PipelineRun
