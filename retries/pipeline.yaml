@@ -22,6 +22,10 @@ spec:
   - name: task-two-step-one
     image: ubuntu
     command: ["/bin/bash"]
+    args: ['-c', 'for i in {1..2}; do echo GONLOGGIN 1 && sleep 1; done;'] # tests that targetpath works
+  - name: task-two-step-one
+    image: ubuntu
+    command: ["/bin/bash"]
     args: ['-c', 'return 1;'] # tests that targetpath works
 ---
 #The Output of the first Task (git resource) create-file is given as an `Input`
