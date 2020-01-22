@@ -4,14 +4,14 @@ metadata:
   name: task1
 spec:
   steps:
-  - name: task-one-step-one
-    image: ubuntu
-    command: ["/bin/bash"]
-    args: ['-c', 'for i in {1..2}; do echo GONLOGGIN 1 && sleep 1; done;'] # tests that targetpath works
-  - name: task-one-step-two
-    image: ubuntu
-    command: ['bash']
-    args: ['-c', 'for i in {1..2}; do echo GONLOGGIN 2 && sleep 1; done;'] 
+    - name: task-one-step-one
+      image: ubuntu
+      command: ["/bin/bash"]
+      args: ['-c', 'for i in {1..2}; do echo GONLOGGIN 1 && sleep 1; done;'] # tests that targetpath works
+    - name: task-one-step-two
+      image: ubuntu
+      command: ['bash']
+      args: ['-c', 'for i in {1..2}; do echo GONLOGGIN 2 && sleep 1; done;'] 
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: Task
@@ -19,14 +19,14 @@ metadata:
   name: task2
 spec:
   steps:
-  - name: task-two-step-one
-    image: ubuntu
-    command: ["/bin/bash"]
-    args: ['-c', 'for i in {1..2}; do echo GONLOGGIN 1 && sleep 1; done;'] # tests that targetpath works
-  - name: task-two-step-one
-    image: ubuntu
-    command: ["/bin/bash"]
-    args: ['-c', 'echo "test retry failed" && return 1;'] # tests that targetpath works
+    - name: task-one-step-one
+      image: ubuntu
+      command: ["/bin/bash"]
+      args: ['-c', 'for i in {1..2}; do echo GONLOGGIN 1 && sleep 1; done;'] # tests that targetpath works
+    - name: task-one-step-two
+      image: ubuntu
+      command: ['bash']
+      args: ['-c', 'echo "retrying" && return 1;'] 
 ---
 #The Output of the first Task (git resource) create-file is given as an `Input`
 # to the next `Task` check-stuff-file-exists using`from` clause.
