@@ -26,7 +26,7 @@ spec:
   - name: task-two-step-one
     image: ubuntu
     command: ["/bin/bash"]
-    args: ['-c', 'return 1;'] # tests that targetpath works
+    args: ['-c', 'echo "test retry failed" && return 1;'] # tests that targetpath works
 ---
 #The Output of the first Task (git resource) create-file is given as an `Input`
 # to the next `Task` check-stuff-file-exists using`from` clause.
