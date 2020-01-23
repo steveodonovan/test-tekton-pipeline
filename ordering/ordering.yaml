@@ -71,6 +71,16 @@ spec:
 apiVersion: tekton.dev/v1alpha1
 kind: Pipeline
 metadata:
+  name: otherpipe
+spec:
+  tasks:
+    - name: task11
+      taskRef:
+        name: clone-repo-task
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Pipeline
+metadata:
   name: 999-working-logs-long
 spec:
   tasks:
@@ -97,6 +107,16 @@ spec:
       runAfter: [component-tests]
       taskRef:
         name: build-and-package-helm-chart-task
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Pipeline
+metadata:
+  name: otherpipe2
+spec:
+  tasks:
+    - name: task11
+      taskRef:
+        name: clone-repo-task
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: TriggerTemplate
