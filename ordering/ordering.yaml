@@ -1,0 +1,145 @@
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: build-and-package-helm-chart-task
+spec:
+  steps:
+  - name: task-one-step-one
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'for i in {1..10}; do echo GONLOGGIN 1 && sleep 3; done;']
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: clone-repo-task
+spec:
+  steps:
+  - name: task-one-step-one
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'for i in {1..10}; do echo GONLOGGIN 1 && sleep 3; done;']
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: build-task
+spec:
+  steps:
+  - name: task-one-step-one
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'for i in {1..10}; do echo GONLOGGIN 1 && sleep 3; done;']
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: build-and-docker-push-task
+spec:
+  steps:
+  - name: task-one-step-one
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'for i in {1..10}; do echo GONLOGGIN 1 && sleep 3; done;']
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: nock-tests-task
+spec:
+  steps:
+  - name: task-one-step-one
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'for i in {1..10}; do echo GONLOGGIN 1 && sleep 3; done;']
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: tests-task
+spec:
+  steps:
+  - name: task-one-step-one
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'for i in {1..10}; do echo GONLOGGIN 1 && sleep 3; done;']
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Pipeline
+metadata:
+  name: 999-working-logs-long
+spec:
+  tasks:
+    - name: clone-repo
+      taskRef:
+        name: clone-repo-task
+    - name: build
+      runAfter: [clone-repo]
+      taskRef:
+        name: build-task
+    - name: docker-build
+      runAfter: [build]
+      taskRef:
+        name: build-and-docker-push-task
+    - name: nock-tests
+      runAfter: [docker-build]
+      taskRef:
+        name: nock-tests-task
+    - name: component-tests
+      runAfter: [nock-tests]
+      taskRef:
+        name: tests-task
+    - name: build-and-package-helm-chart
+      runAfter: [component-tests]
+      taskRef:
+        name: build-and-package-helm-chart-task
+---
+apiVersion: tekton.dev/v1alpha1
+kind: TriggerBinding
+metadata:
+  name: pipeline-binding
+spec:
+  params:
+    - name: gitrevision
+      value: $(event.head_commit.id)
+    - name: gitrepositoryurl
+      value: $(event.repository.url)
+---
+apiVersion: tekton.dev/v1alpha1
+kind: TriggerBinding
+metadata:
+  name: manual-pipeline-binding
+spec:
+  params:
+    - name: gitrevision
+      value: v0.32.0
+    - name: gitrepositoryurl
+      value: https://github.com/GoogleContainerTools/skaffold
+---
+apiVersion: tekton.dev/v1alpha1
+kind: EventListener
+metadata:
+  name: listener
+spec:
+  triggers:
+    - binding:
+        name: pipeline-binding
+      template:
+        name: pipeline-template
+      params:
+        - name: message
+          value: Hello from the Git Triggers EventListener!
+---
+apiVersion: tekton.dev/v1alpha1
+kind: EventListener
+metadata:
+  name: manual-listener
+spec:
+  triggers:
+    - binding:
+        name: manual-pipeline-binding
+      template:
+        name: pipeline-template
+      params:
+        - name: message
+          value: Hello from the Manual Triggers EventListener!
