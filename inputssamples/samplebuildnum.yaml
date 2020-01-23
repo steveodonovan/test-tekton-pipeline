@@ -28,9 +28,6 @@ spec:
     - name: sample-out-task
       taskRef:
         name: sample-out-task
-      params:
-        - name: buildnumber
-          value: $(params.buildnumber)
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: TriggerTemplate
