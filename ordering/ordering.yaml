@@ -1,4 +1,14 @@
 apiVersion: tekton.dev/v1alpha1
+kind: Pipeline
+metadata:
+  name: otherpipe3
+spec:
+  tasks:
+    - name: task11
+      taskRef:
+        name: clone-repo-task
+---
+apiVersion: tekton.dev/v1alpha1
 kind: Task
 metadata:
   name: build-and-package-helm-chart-task
@@ -12,6 +22,16 @@ spec:
     image: ubuntu
     command: ["/bin/bash"]
     args: ['-c', 'return 1;']
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Pipeline
+metadata:
+  name: otherpipe4
+spec:
+  tasks:
+    - name: task11
+      taskRef:
+        name: clone-repo-task
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: Task
@@ -34,6 +54,16 @@ spec:
     image: ubuntu
     command: ["/bin/bash"]
     args: ['-c', 'for i in {1..10}; do echo GONLOGGIN 1 && sleep 3; done;']
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Pipeline
+metadata:
+  name: otherpipe10
+spec:
+  tasks:
+    - name: task11
+      taskRef:
+        name: clone-repo-task
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: Task
