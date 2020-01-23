@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1alpha1
 kind: Task
 metadata:
-  name: task1
+  name: atask1
 spec:
   steps:
   - name: task-one-step-one
@@ -132,9 +132,10 @@ metadata:
   name: 999-working-logs-long
 spec:
   tasks:
-  - name: task1
+  - name: atask1
+    runAfter: [task3]
     taskRef:
-      name: task1
+      name: atask1
   - name: task2
     taskRef:
       name: task2
