@@ -99,7 +99,7 @@ spec:
 apiVersion: tekton.dev/v1alpha1
 kind: Task
 metadata:
-  name: task7
+  name: bbtask7
 spec:
   steps:
   - name: task7step1
@@ -151,9 +151,9 @@ spec:
   - name: task6
     taskRef:
       name: task6
-  - name: task7
+  - name: bbtask7
     taskRef:
-      name: task7
+      name: bbtask7
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: TriggerTemplate
