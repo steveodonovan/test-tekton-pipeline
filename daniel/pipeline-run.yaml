@@ -7,16 +7,12 @@ spec:
     params:
       - name: buildnumber
         description: test
-      - name: event
-        description: testevent
   steps:
     - name: task-two-step-four
       image: ubuntu
       env:
         - name: BUILD_NUMBER
           value: $(inputs.params.buildnumber)
-        - name: EVENT
-          value: $(inputs.params.event)
       command: ['bash']
       args: ['-c', 'for i in {1..3}; do echo $BUILD_NUMBER && echo $EVENT && sleep 3; done;'] 
 ---
@@ -55,8 +51,6 @@ spec:
         params:
         - name: buildnumber
           value: $(params)
-        - name: event
-          value: samplevalue
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: TriggerBinding
