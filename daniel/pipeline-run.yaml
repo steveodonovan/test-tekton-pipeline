@@ -56,7 +56,7 @@ spec:
         - name: buildnumber
           value: $(params)
         - name: event
-          value: $(event)
+          value: samplevalue
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: TriggerBinding
