@@ -1,0 +1,81 @@
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: sample-out-task
+spec:
+  inputs:
+    params:
+      - name: buildnumber
+        description: test
+      - name: event
+        description: testevent
+  steps:
+    - name: task-two-step-four
+      image: ubuntu
+      env:
+        - name: BUILD_NUMBER
+          value: $(inputs.params.buildnumber)
+        - name: EVENT
+          value: $(inputs.params.event)
+      command: ['bash']
+      args: ['-c', 'for i in {1..3}; do echo $BUILD_NUMBER && echo $EVENT && sleep 3; done;'] 
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Pipeline
+metadata:
+  name: pipeline
+spec:
+  params:
+    - name: buildnumber
+      description: thebuildnumber
+    - name: event
+      description: theevent
+  tasks:
+    - name: sample-out-task
+      taskRef:
+        name: sample-out-task
+---
+apiVersion: tekton.dev/v1alpha1
+kind: TriggerTemplate
+metadata:
+  name: template
+spec:
+  params:
+    - name: buildnumber
+      description: thebuildnuminput
+      default: buildnumberfailedjerh
+  resourcetemplates:
+    - apiVersion: tekton.dev/v1alpha1
+      kind: PipelineRun
+      metadata:
+        name: pipelinerun-$(uid)
+      spec:
+        pipelineRef:
+            name: pipeline
+        params:
+        - name: buildnumber
+          value: $(params)
+        - name: event
+          value: $(event)
+---
+apiVersion: tekton.dev/v1alpha1
+kind: TriggerBinding
+metadata:
+  name: binding
+spec:
+  params:
+    - name: repository
+      value: "https://github.com/open-toolchain/hello-tekton"
+    - name: revision
+      value: "master"
+---
+apiVersion: tekton.dev/v1alpha1
+kind: EventListener
+metadata:
+  name: listener
+spec:
+  triggers:
+    - binding:
+        name: binding
+      template:
+        name: template
