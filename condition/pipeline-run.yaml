@@ -78,7 +78,6 @@ metadata:
 spec:
   pipelineRef:
     name: pipeline-list-pipeline-repo-files
-  serviceAccountName: 'default'
   resources:
     - name: pipeline-source-repo
       resourceRef:
@@ -106,7 +105,6 @@ spec:
       spec:
         pipelineRef:
           name: pipeline-list-pipeline-repo-files
-        serviceAccountName: 'default'
         resources:
           - name: pipeline-source-repo
             resourceRef:
