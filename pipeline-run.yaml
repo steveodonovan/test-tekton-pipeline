@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1alpha1
 kind: Task
 metadata:
-  name: atask1
+  name: atask1 
 spec:
   steps:
   - name: task-one-step-one
