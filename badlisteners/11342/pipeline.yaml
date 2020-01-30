@@ -17,7 +17,7 @@ spec:
   tasks:
     - name: pipeline-hunter-task
       taskRef:
-        name: hunter-tasknotthere
+        name: hunter-task
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: TriggerTemplate
