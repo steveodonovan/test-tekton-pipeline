@@ -16,6 +16,21 @@ spec:
 apiVersion: tekton.dev/v1alpha1
 kind: Task
 metadata:
+  name: emptylogs
+spec:
+  steps:
+  - name: emptylogs-step-one
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'for i in {1..10}; do sleep 3; done;']
+  - name: emptylogs-step-two
+    image: ubuntu
+    command: ['bash']
+    args: ['-c', 'for i in {1..10}; do sleep 3; done;'] 
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
   name: task2
 spec:
   steps:
@@ -136,6 +151,10 @@ spec:
     runAfter: [task3]
     taskRef:
       name: atask1
+  - name: emptylogs
+    runAfter: [task3]
+    taskRef:
+      name: emptylogs
   - name: task2
     taskRef:
       name: task2
