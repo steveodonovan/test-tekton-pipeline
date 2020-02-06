@@ -3,6 +3,10 @@ kind: Pipeline
 metadata:
   name: 999-working-logs-long
 spec:
+  params:
+    - name: repository-name
+    - name: repository-url
+    - name: branch
   tasks:
   - name: atask1
     runAfter: [task3]
@@ -21,6 +25,13 @@ spec:
   - name: task4
     taskRef:
       name: task4
+    params:
+      - name: branch
+        value: $(params.branch)
+      - name: repository-name
+        value: $(params.repository-name)
+      - name: repository-url
+        value: $(params.repository-url)
   - name: task5-somethingelse
     taskRef:
       name: task5
