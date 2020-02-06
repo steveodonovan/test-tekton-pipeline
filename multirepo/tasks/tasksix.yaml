@@ -1,0 +1,14 @@
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task6
+spec:
+  steps:
+  - name: task6step1
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'for i in {1..2}; do echo GONLOGGIN 1 && sleep 3; done;'] # tests that targetpath works
+  - name: task6step2
+    image: ubuntu
+    command: ['bash']
+    args: ['-c', 'for i in {1..2}; do echo GONLOGGIN 2 && sleep 3; done;'] 
