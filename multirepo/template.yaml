@@ -35,7 +35,7 @@ spec:
           triggertemplated: "true"
           generatedBy: "triggers-example"
       spec:
-        serviceAccount: default
+        serviceAccount: test-steve
         pipelineRef:
           name: 999-working-logs-long
         params:
