@@ -1,0 +1,32 @@
+apiVersion: tekton.dev/v1alpha1
+kind: Pipeline
+metadata:
+  name: 999-working-logs-long
+spec:
+  tasks:
+  - name: atask1
+    runAfter: [task3]
+    taskRef:
+      name: atask1
+  - name: emptylogs
+    runAfter: [task3]
+    taskRef:
+      name: emptylogs
+  - name: task2
+    taskRef:
+      name: task2
+  - name: task3
+    taskRef:
+      name: task3
+  - name: task4
+    taskRef:
+      name: task3
+  - name: task5-somethingelse
+    taskRef:
+      name: task5
+  - name: task6
+    taskRef:
+      name: task6
+  - name: bbtask7
+    taskRef:
+      name: bbtask7
