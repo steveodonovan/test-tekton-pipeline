@@ -20,7 +20,7 @@ spec:
       name: task3
   - name: task4
     taskRef:
-      name: task3
+      name: task4
   - name: task5-somethingelse
     taskRef:
       name: task5
