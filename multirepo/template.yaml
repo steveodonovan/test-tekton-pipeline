@@ -40,8 +40,8 @@ spec:
           name: 999-working-logs-long
         params:
           - name: branch
-            value: master
+            value: "master"
           - name: repository-url
-            value: https://github.ibm.com/steve/test
+            value: "https://github.ibm.com/steve/test"
           - name: repository-name
-            value: test
+            value: "test"
