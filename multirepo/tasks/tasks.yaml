@@ -45,8 +45,8 @@ spec:
     - "/bin/bash"
     - "-c"
     args:
-    - 'echo "Starting CICD pipeline for ''$(inputs.params.repository-name)'' from
-      ''$(inputs.params.repository-url):$(inputs.params.branch)''"
+        - |
+          echo "Starting CICD pipeline for '$(inputs.params.repository-name)' from '$(inputs.params.repository-url):$(inputs.params.branch)'"
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: Task
