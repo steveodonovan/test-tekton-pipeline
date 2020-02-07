@@ -8,6 +8,12 @@ spec:
       value: $(event.head_commit.id)
     - name: gitrepositoryurl
       value: $(event.repository.url)
+    - name: branch
+      value: $(params.branch)
+    - name: repository-url
+      value: $(params.repository-url)
+    - name: repository-name
+      value: $(params.repository-name)
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: TriggerBinding
@@ -19,3 +25,9 @@ spec:
       value: v0.32.0
     - name: gitrepositoryurl
       value: https://github.com/GoogleContainerTools/skaffold
+    - name: branch
+      value: $(params.branch)
+    - name: repository-url
+      value: $(params.repository-url)
+    - name: repository-name
+      value: $(params.repository-name)
