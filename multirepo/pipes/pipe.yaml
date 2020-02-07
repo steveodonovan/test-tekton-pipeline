@@ -9,11 +9,9 @@ spec:
     - name: branch
   tasks:
   - name: atask1
-    runAfter: [task3]
     taskRef:
       name: atask1
   - name: emptylogs
-    runAfter: [task3]
     taskRef:
       name: emptylogs
   - name: task2
