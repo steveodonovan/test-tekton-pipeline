@@ -41,12 +41,19 @@ spec:
   steps:
   - name: echo
     image: ubuntu
+    env:
+      - name: REPO_URL
+        value: $(inputs.params.repository-url)
+      - name: REPO_NAME
+        value: $(inputs.params.repository-name)
+      - name: REPO_BRANCH
+        value: $(inputs.params.branch)
     command:
     - "/bin/bash"
     - "-c"
     args:
         - |
-          echo "Starting CICD pipeline for '$(inputs.params.repository-name)' from '$(inputs.params.repository-url):$(inputs.params.branch)'"
+          echo "Starting CICD pipeline for '$REPO_NAME' from '$REPO_NAME:$REPO_BRANCH'"
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: Task
