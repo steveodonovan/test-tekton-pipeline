@@ -72,18 +72,6 @@ spec:
             resource: pipeline-source-repo
 ---
 apiVersion: tekton.dev/v1alpha1
-kind: PipelineRun
-metadata:
-  name: demo-condtional-pr-without-condition-resource
-spec:
-  pipelineRef:
-    name: pipeline-list-pipeline-repo-files
-  resources:
-    - name: pipeline-source-repo
-      resourceRef:
-        name: pipeline-git-repo
----
-apiVersion: tekton.dev/v1alpha1
 kind: TriggerTemplate
 metadata:
   name: pipeline-template
