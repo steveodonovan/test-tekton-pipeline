@@ -14,18 +14,6 @@ spec:
     script: 'test ! -f $(resources.optional-workspace.path)/$(params.path)'
 ---
 apiVersion: tekton.dev/v1alpha1
-kind: PipelineResource
-metadata:
-  name: pipeline-git-repo
-spec:
-  type: git
-  params:
-    - name: revision
-      value: master
-    - name: url
-      value: https://github.com/tektoncd/pipeline
----
-apiVersion: tekton.dev/v1alpha1
 kind: Task
 metadata:
   name: list-pipeline-repo-files
@@ -66,6 +54,10 @@ spec:
 #          resources:
 #            - name: optional-workspace
 #              resource: pipeline-source-repo
+      resources:
+        inputs:
+          - name: optional-workspace
+            resource: pipeline-source-repo
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: TriggerTemplate
