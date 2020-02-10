@@ -66,10 +66,6 @@ spec:
 #          resources:
 #            - name: optional-workspace
 #              resource: pipeline-source-repo
-      resources:
-        inputs:
-          - name: optional-workspace
-            resource: pipeline-source-repo
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: TriggerTemplate
