@@ -10,7 +10,7 @@ spec:
   - name: task-one-step-one
     image: ubuntu
     command: ["/bin/bash"]
-    args: ['-c', 'for i in {1..2}; do echo GONLOGGIN 1 && sleep 10000; done;'] # tests that targetpath works
+    args: ['-c', 'for i in {1..2}; do touch /artifacts/testfile.txt echo GONLOGGIN >> /artifacts/testfile.txt && sleep 10000; done;'] # tests that targetpath works
   - name: task-one-step-two
     image: ubuntu
     command: ['bash']
