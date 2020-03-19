@@ -153,6 +153,17 @@ spec:
     - apiVersion: v1
       kind: PersistentVolumeClaim
       metadata:
+        name: second-unused-claim
+      spec:
+        resources:
+          requests:
+            storage: 5Gi
+        volumeMode: Filesystem
+        accessModes:
+          - ReadWriteOnce
+    - apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
         name: $(uid)
       spec:
         resources:
