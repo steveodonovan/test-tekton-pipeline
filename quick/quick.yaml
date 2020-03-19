@@ -6,6 +6,7 @@ spec:
   steps:
   - name: task-one-step-one
     image: us.icr.io/gilad-test/gilad-repo:mar_16
+    imagePullPolicy: Always
     command: ["/bin/bash"]
     args: ['-c', 'for i in {1..2}; do echo GONLOGGIN 1 && sleep 1; done;'] # tests that targetpath works
   - name: task-one-step-two
