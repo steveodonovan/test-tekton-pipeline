@@ -10,22 +10,25 @@ spec:
   - name: task-one-step-one
     image: ubuntu
     command: ["/bin/bash"]
-    args: ['-c', 'for i in {1..2}; do touch /artifacts/testfile.txt echo GONLOGGIN >> /artifacts/testfile.txt && sleep 10000; done;'] # tests that targetpath works
+    args: ['-c', 'touch /artifacts/testfile.txt && for i in {1..10}; do echo GONLOGGIN >> /artifacts/testfile.txt && sleep 3; done;'] # tests that targetpath works
   - name: task-one-step-two
     image: ubuntu
     command: ['bash']
-    args: ['-c', 'for i in {1..2}; do echo GONLOGGIN 2 && sleep 1; done;'] 
+    args: ['-c', 'for i in {1..10}; do echo GONLOGGIN >> /artifacts/testfile.txt && sleep 3; done;'] 
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: Task
 metadata:
   name: task2
 spec:
+  workspaces:
+    - name: task-pvc
+      mountPath: /artifacts
   steps:
   - name: task-two-step-one
     image: ubuntu
     command: ["/bin/bash"]
-    args: ['-c', 'for i in {1..2}; do echo GONLOGGIN 1 && sleep 1; done;'] # tests that targetpath works
+    args: ['-c', 'touch /artifacts/testfile.txt && for i in {1..2}; do echo GONLOGGIN >> /artifacts/testfile.txt && sleep 1; done;'] # tests that targetpath works
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: Task
@@ -134,6 +137,9 @@ spec:
   - name: task2
     taskRef:
       name: task2
+    workspaces:
+      - name: task-pvc
+        workspace: pipeline-pvc
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: TriggerTemplate
