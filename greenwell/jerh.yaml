@@ -1,0 +1,103 @@
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: echo-props
+spec:
+  inputs:
+    params:
+      - name: quote
+        description: Simple quoted property
+      - name: noquote
+        description: Simple un-quoted property
+      - name: environment_value
+        description: Value from pipeline, trigger, or run property    
+  steps:
+    - name: show-props
+      image: ubuntu
+      env:
+        - name: QUOTE
+          value: $(inputs.params.quote)
+        - name: NOQUOTE
+          value: $(inputs.params.noquoteoristhere)
+        - name: ENVIRONMENT_VALUE
+          value: $(inputs.params.environment_value)    
+      command: ["/bin/bash", "-c"]
+      args:
+        - echo "This is what I can see";
+          echo $QUOTE;
+          echo $NOQUOTE;
+          echo "This is what I was sent";
+          echo $ENVIRONMENT_VALUE;
+          echo "Nothing else to see here"
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Pipeline
+metadata:
+  name: echo-props-pipeline
+spec:
+  params:
+    - name: quote
+      description: simple quoted property
+      default: TESTQUOTE
+    - name: noquote
+      description: simple unquoted property
+      default: TESTNOQUOTE
+    - name: environment_value
+      description: A value from the pipeline level, trigger level or run level
+      default: BLOOPER  
+  tasks:
+    - name: echo-task
+      taskRef:
+        name: echo-props
+      params:
+        - name: quote
+          value: $(params.quote)
+        - name: noquote
+          value: $(params.noquote)
+        - name: environment_value
+          value: $(params.environment_value)
+---
+apiVersion: tekton.dev/v1alpha1
+kind: EventListener
+metadata:
+  name: echo-listener
+spec:
+  triggers:
+    - binding:
+        name: echo-pipeline-binding
+      template:
+        name: echo-pipeline-template
+---
+apiVersion: tekton.dev/v1alpha1
+kind: TriggerBinding
+metadata:
+  name: echo-pipeline-binding
+---
+apiVersion: tekton.dev/v1alpha1
+kind: TriggerTemplate
+metadata:
+  name: echo-pipeline-template
+spec:
+  params:
+    - name: quote
+      description: Quoted property
+    - name: noquote
+      description: UnQuoted property
+  resourcetemplates:
+    - apiVersion: tekton.dev/v1alpha1
+      kind: PipelineRun
+      metadata:
+        generateName: echo-pipeline-run-
+        labels:
+          triggertemplated: "true"
+          generatedBy: "echo-example"
+      spec:
+        pipelineRef:
+          name: echo-props-pipeline
+        params:
+          - name: quote
+            value: $(params.quote)
+          - name: noquote
+            value: $(params.noquote)
+          - name: environment_value
+            value: $(params.environment_value)
