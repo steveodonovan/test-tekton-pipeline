@@ -86,12 +86,12 @@ spec:
         pipelineRef:
           name: 999-working-logs-long
         params:
-        - name: repository
-          value: $(params.securetest)
-        - name: revision
-          value: $(params.environment)
-        - name: apikey
-          value: $(params.region)
+          - name: repository
+            value: $(params.securetest)
+          - name: revision
+            value: $(params.environment)
+          - name: apikey
+            value: $(params.region)
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: TriggerBinding
