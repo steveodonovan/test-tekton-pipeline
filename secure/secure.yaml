@@ -72,10 +72,6 @@ metadata:
   name: pipeline-template
 spec:
   params:
-    - name: securetest
-      description: securetest
-    - name: environment
-      description: environment
     - name: region
       description: region
   resourcetemplates:
@@ -103,10 +99,6 @@ metadata:
   name: pipeline-binding
 spec:
   params:
-    - name: gitrevision
-      value: $(event.head_commit.id)
-    - name: gitrepositoryurl
-      value: $(event.repository.url)
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: TriggerBinding
@@ -114,10 +106,6 @@ metadata:
   name: manual-pipeline-binding
 spec:
   params:
-    - name: gitrevision
-      value: v0.32.0
-    - name: gitrepositoryurl
-      value: https://github.com/GoogleContainerTools/skaffold
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: EventListener
