@@ -211,7 +211,7 @@ spec:
           triggertemplated: "true"
           generatedBy: "triggers-example"
       spec:
-        timeout: 50h
+        timeout: 1m
         pipelineRef:
           name: 999-working-logs-long
 ---
