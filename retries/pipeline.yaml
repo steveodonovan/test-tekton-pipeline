@@ -41,7 +41,7 @@ spec:
     taskRef:
       name: task1
   - name: task2
-    retries: 8
+    retries: 5
     taskRef:
       name: task2
 ---
