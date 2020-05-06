@@ -26,7 +26,7 @@ spec:
     - name: task-one-step-two
       image: ubuntu
       command: ['bash']
-      args: ['-c', 'for i in {1..2}; do echo GONLOGGIN 2 && sleep 1; done; && return 1;'] 
+      args: ['-c', 'for i in {1..2}; do echo WILLFAILHERE 2 && sleep 1; done; && exit 1;'] 
 ---
 #The Output of the first Task (git resource) create-file is given as an `Input`
 # to the next `Task` check-stuff-file-exists using`from` clause.
