@@ -26,7 +26,7 @@ spec:
     - name: task-one-step-two
       image: ubuntu
       command: ['bash']
-      args: ['-c', 'echo "doing things" && sleep 2 && echo "and other things" && sleep 1 && fail'] 
+      args: ['-c', 'echo "doing things" && sleep 2 && echo "and other things" && date +"%T" && sleep 1 && fail'] 
 ---
 #The Output of the first Task (git resource) create-file is given as an `Input`
 # to the next `Task` check-stuff-file-exists using`from` clause.
