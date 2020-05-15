@@ -26,7 +26,19 @@ spec:
   - name: emptylogs-step-two
     image: ubuntu
     command: ['bash']
-    args: ['-c', 'for i in {1..10}; do sleep 3; done;'] 
+    args: ['-c', 'for i in {1..2}; do sleep 3; done;'] 
+  - name: quickandempty
+    image: ubuntu
+    command: ['bash']
+    args: ['-c', ''] 
+  - name: quickandempty2
+    image: ubuntu
+    command: ['bash']
+    args: ['-c', ''] 
+  - name: quickandoneline
+    image: ubuntu
+    command: ['bash']
+    args: ['-c', 'echo "Hello World!"'] 
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: Task
