@@ -4,6 +4,10 @@ metadata:
   name: atask1
 spec:
   steps:
+  - name: quickandonelinethirdt1
+    image: ubuntu
+    command: ['bash']
+    args: ['-c', 'echo "Hello World!"'] 
   - name: task-one-step-one
     image: ubuntu
     command: ["/bin/bash"]
@@ -107,6 +111,10 @@ metadata:
   name: task5
 spec:
   steps:
+  - name: quickandonelinethirdt5
+    image: ubuntu
+    command: ['bash']
+    args: ['-c', 'echo "Hello World!"'] 
   - name: task5step1
     image: ubuntu
     command: ["/bin/bash"]
