@@ -19,6 +19,10 @@ metadata:
   name: emptylogs
 spec:
   steps:
+  - name: quickandonelinefirst
+    image: ubuntu
+    command: ['bash']
+    args: ['-c', 'echo "Hello World!"'] 
   - name: emptylogs-step-one
     image: ubuntu
     command: ["/bin/bash"]
@@ -36,6 +40,10 @@ spec:
     command: ['bash']
     args: ['-c', ''] 
   - name: quickandoneline
+    image: ubuntu
+    command: ['bash']
+    args: ['-c', 'echo "Hello World!"'] 
+  - name: quickandonelinethird
     image: ubuntu
     command: ['bash']
     args: ['-c', 'echo "Hello World!"'] 
