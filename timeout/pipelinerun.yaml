@@ -206,12 +206,12 @@ spec:
     - apiVersion: tekton.dev/v1alpha1
       kind: PipelineRun
       metadata:
-        generateName: cutting-down-trees-run
+        generateName: timeout
         labels:
           triggertemplated: "true"
           generatedBy: "triggers-example"
       spec:
-        timeout: 10h30m
+        timeout: 1m
         pipelineRef:
           name: 999-working-logs-long
 ---
