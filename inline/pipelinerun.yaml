@@ -85,7 +85,6 @@ metadata:
 spec:
   tasks:
   - name: atask1
-    runAfter: [task3]
     taskSpec:
         steps:
         - name: quickandonelinethirdt1
@@ -101,7 +100,6 @@ spec:
           command: ['bash']
           args: ['-c', 'for i in {1..10}; do echo GONLOGGIN 2 && sleep 3; done;'] 
   - name: emptylogs
-    runAfter: [task3]
     taskRef:
       name: emptylogs
   - name: task2
