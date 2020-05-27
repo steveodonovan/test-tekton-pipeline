@@ -22,11 +22,11 @@ spec:
     - name: task-one-step-one
       image: ubuntu
       command: ["/bin/bash"]
-      args: ['-c', 'for i in {1..2}; do echo GONLOGGIN 1 && sleep 1; done;'] # tests that targetpath works
+      args: ['-c', 'echo test && sleep 2']
     - name: task-one-step-two
       image: ubuntu
       command: ['bash']
-      args: ['-c', 'echo "doing things" && sleep 2 && echo "and other things" && date +"%T" && sleep 1 && fail'] 
+      args: ['-c', '[[ $((1 + RANDOM % 3)) == 1 ]] && echo Some logs || fail']
 ---
 #The Output of the first Task (git resource) create-file is given as an `Input`
 # to the next `Task` check-stuff-file-exists using`from` clause.
