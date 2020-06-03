@@ -7,7 +7,7 @@ spec:
     - name: task-one-step-one
       image: ubuntu
       command: ["/bin/bash"]
-      args: ['-c', 'for i in {1..2}; do date +"%T" 1 && sleep 1; done;'] # tests that targetpath works
+      args: ['-c', 'for i in {1..2}; do echo GONLOGGIN 1 && sleep 1; done;'] # tests that targetpath 
     - name: task-one-step-two
       image: ubuntu
       command: ['bash']
