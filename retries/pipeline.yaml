@@ -28,9 +28,36 @@ spec:
       command: ['bash']
       args: ['-c', '[[ $((1 + RANDOM % 3)) == 1 ]] && echo Some logs || fail']
 ---
-#The Output of the first Task (git resource) create-file is given as an `Input`
-# to the next `Task` check-stuff-file-exists using`from` clause.
-
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: xysk
+spec:
+  steps:
+    - name: task-one-step-one
+      image: ubuntu
+      command: ["/bin/bash"]
+      args: ['-c', 'for i in {1..2}; do echo GONLOGGIN 1 && sleep 1; done;'] # tests that targetpath 
+    - name: task-one-step-two
+      image: ubuntu
+      command: ['bash']
+      args: ['-c', 'for i in {1..2}; do echo GONLOGGIN 2 && sleep 1; done;'] 
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: aaab
+spec:
+  steps:
+    - name: task-one-step-one
+      image: ubuntu
+      command: ["/bin/bash"]
+      args: ['-c', 'for i in {1..2}; do echo GONLOGGIN 1 && sleep 1; done;'] # tests that targetpath 
+    - name: task-one-step-two
+      image: ubuntu
+      command: ['bash']
+      args: ['-c', 'for i in {1..2}; do echo GONLOGGIN 2 && sleep 1; done;'] 
+---
 apiVersion: tekton.dev/v1alpha1
 kind: Pipeline
 metadata:
@@ -44,6 +71,12 @@ spec:
     retries: 5
     taskRef:
       name: task2
+  - name: xysk
+    taskRef:
+      name: xysk
+  - name: aaab
+    taskRef:
+      name: aaab
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: TriggerTemplate
