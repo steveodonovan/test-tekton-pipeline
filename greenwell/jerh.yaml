@@ -1,16 +1,15 @@
-apiVersion: tekton.dev/v1alpha1
+apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
   name: echo-props
 spec:
-  inputs:
-    params:
-      - name: quote
-        description: Simple quoted property
-      - name: noquote
-        description: Simple un-quoted property
-      - name: environment_value
-        description: Value from pipeline, trigger, or run property    
+  params:
+    - name: quote
+      description: Simple quoted property
+    - name: noquote
+      description: Simple un-quoted property
+    - name: environment_value
+      description: Value from pipeline, trigger, or run property    
   steps:
     - name: show-props
       image: ubuntu
@@ -30,7 +29,7 @@ spec:
           echo $ENVIRONMENT_VALUE;
           echo "Nothing else to see here"
 ---
-apiVersion: tekton.dev/v1alpha1
+apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
   name: echo-props-pipeline
@@ -57,7 +56,7 @@ spec:
         - name: environment_value
           value: $(params.environment_value)
 ---
-apiVersion: tekton.dev/v1alpha1
+apiVersion: tekton.dev/v1beta1
 kind: EventListener
 metadata:
   name: echo-listener
@@ -68,7 +67,7 @@ spec:
       template:
         name: echo-pipeline-template
 ---
-apiVersion: tekton.dev/v1alpha1
+apiVersion: tekton.dev/v1beta1
 kind: TriggerBinding
 metadata:
   name: echo-pipeline-binding
@@ -84,7 +83,7 @@ spec:
     - name: noquote
       description: UnQuoted property
   resourcetemplates:
-    - apiVersion: tekton.dev/v1alpha1
+    - apiVersion: tekton.dev/v1beta1
       kind: PipelineRun
       metadata:
         generateName: echo-pipeline-run-
