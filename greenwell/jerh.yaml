@@ -17,7 +17,7 @@ spec:
         - name: QUOTE
           value: $(inputs.params.quote)
         - name: NOQUOTE
-          value: $(inputs.params.noquoteoristhere)
+          value: $(inputs.params.noquote)
         - name: ENVIRONMENT_VALUE
           value: $(inputs.params.environment_value)    
       command: ["/bin/bash", "-c"]
