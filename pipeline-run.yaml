@@ -81,10 +81,14 @@ metadata:
   name: task3
 spec:
   steps:
+  - name: ping
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'curl -X PUT https://counter-1.herokuapp.com/api/v1/count/increment/1']
   - name: task-three-step-one
     image: ubuntu
     command: ["/bin/bash"]
-    args: ['-c', 'for i in {1..3}; do echo GONLOGGIN 1 && sleep 3; done;'] # tests that targetpath works
+    args: ['-c', 'for i in {1..3}; do echo GONLOGGIN 1 && sleep 3; done;']
   - name: task-three-step-two
     image: ubuntu
     command: ['bash']
