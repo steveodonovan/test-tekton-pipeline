@@ -124,10 +124,6 @@ metadata:
   name: pipeline-binding
 spec:
   params:
-    - name: gitrevision
-      value: $(event.head_commit.id)
-    - name: gitrepositoryurl
-      value: $(event.repository.url)
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: TriggerBinding
