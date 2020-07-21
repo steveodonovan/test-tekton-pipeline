@@ -135,10 +135,6 @@ metadata:
   name: manual-pipeline-binding
 spec:
   params:
-    - name: gitrevision
-      value: v0.32.0
-    - name: gitrepositoryurl
-      value: https://github.com/GoogleContainerTools/skaffold
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: EventListener
