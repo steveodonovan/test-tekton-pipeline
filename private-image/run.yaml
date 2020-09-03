@@ -1,0 +1,236 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: TriggerTemplate
+metadata:
+  name: template
+spec:
+  params:
+    - name: registry-namespace
+      description: The namespace in the container image registry. You can set it up
+        with {bx cr namespace-add]. Learn more at https://cloud.ibm.com/docs/services/Registry?topic=registry-getting-started#getting-started.
+    - name: app-name
+      description: The name of your app
+    - name: registry-region
+      description: The IBM Cloud region for image registry
+    - name: cluster-name
+      description: the name of the cluster to target
+    - name: dev-resource-group
+      description: Resource Group
+    - name: dev-region
+      description: target region
+    - name: branch
+      description: the branch for the git repo
+    - name: dev-cluster-namespace
+      description: namespace dev
+    - name: repository-integration
+      description: the repo integration name
+    - name: commit-id
+      description: commit id
+    - name: pipeline-debug
+      description: toggles debug mode for the pipeline
+    - name: inventory-repo
+      description: inventory repository owner and name
+    - name: version
+      description: cr branch name
+    - name: artifactory-dockerconfigjson
+      description: dockerconfigjson for pullsecrets
+    - name: slack-notifications
+      description: toggles slack notifications
+  resourcetemplates:
+    - apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
+        name: pipelinerun-$(uid)-pvc
+      spec:
+        resources:
+          requests:
+            storage: 5Gi
+        volumeMode: Filesystem
+        accessModes:
+          - ReadWriteOnce
+    - apiVersion: v1
+      kind: Secret
+      data:
+        .dockerconfigjson: $(params.artifactory-dockerconfigjson)
+      metadata:
+        name: artifactory-pull-secret
+      type: kubernetes.io/dockerconfigjson
+    - apiVersion: v1
+      kind: ServiceAccount
+      imagePullSecrets:
+        - name: artifactory-pull-secret
+      metadata:
+        name: sa-pullsecret
+    - apiVersion: tekton.dev/v1beta1
+      kind: PipelineRun
+      metadata:
+        name: pipelinerun-$(uid)
+      spec:
+        pipelineRef:
+          name: pipeline
+        workspaces:
+          - name: artifacts
+            persistentVolumeClaim:
+              claimName: pipelinerun-$(uid)-pvc
+        params:
+          - name: registry-namespace
+            value: $(params.registry-namespace)
+          - name: app-name
+            value: $(params.app-name)
+          - name: registry-region
+            value: $(params.registry-region)
+          - name: dev-region
+            value: $(params.dev-region)
+          - name: dev-resource-group
+            value: $(params.dev-resource-group)
+          - name: branch
+            value: $(params.branch)
+          - name: cluster-name
+            value: $(params.cluster-name)
+          - name: dev-cluster-namespace
+            value: $(params.dev-cluster-namespace)
+          - name: repository-integration
+            value: $(params.repository-integration)
+          - name: pipeline-debug
+            value: $(params.pipeline-debug)
+          - name: commit-id
+            value: $(params.commit-id)
+          - name: inventory-repo
+            value: $(params.inventory-repo)
+          - name: version
+            value: $(params.version)
+          - name: slack-notifications
+            value: $(params.slack-notifications)
+        serviceAccountName: sa-pullsecret
+---
+  
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task1
+spec:
+  steps:
+  - name: task-one-step-one
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'for i in {1..2}; do echo GONLOGGIN 1 && sleep 1; done;'] # tests that targetpath works
+  - name: task-one-step-two
+    image: ubuntu
+    command: ['bash']
+    args: ['-c', 'for i in {1..2}; do echo GONLOGGIN 2 && sleep 1; done;'] 
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task2
+spec:
+  steps:
+  - name: task-two-step-one
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'for i in {1..2}; do echo GONLOGGIN 1 && sleep 1; done;'] # tests that targetpath works
+---
+#The Output of the first Task (git resource) create-file is given as an `Input`
+# to the next `Task` check-stuff-file-exists using`from` clause.
+
+apiVersion: tekton.dev/v1alpha1
+kind: Pipeline
+metadata:
+  name: 999-working-logs-long
+spec:
+  tasks:
+  - name: task1
+    taskRef:
+      name: task1
+  - name: task2
+    taskRef:
+      name: task2
+---
+apiVersion: tekton.dev/v1alpha1
+kind: TriggerTemplate
+metadata:
+  name: pipeline-template
+spec:
+  params:
+    - name: gitrevision
+      description: The git revision
+      default: master
+    - name: gitrepositoryurl
+      description: The git repository url
+    - name: dockerconfigjson
+      description: dockerconfigjson for pullsecrets
+  resourcetemplates:
+    - apiVersion: v1
+      kind: Secret
+      data:
+        .dockerconfigjson: $(params.dockerconfigjson)
+      metadata:
+        name: stevespullsecret
+      type: kubernetes.io/dockerconfigjson
+    - apiVersion: v1
+      kind: ServiceAccount
+      imagePullSecrets:
+        - name: stevespullsecret
+      metadata:
+        name: sa-pullsecret
+    - apiVersion: tekton.dev/v1beta1
+      kind: PipelineRun
+      metadata:
+        generateName: cutting-down-trees-run
+        labels:
+          triggertemplated: "true"
+          generatedBy: "triggers-example"
+      spec:
+        pipelineRef:
+          name: 999-working-logs-long
+        serviceAccountName: sa-pullsecret
+---
+apiVersion: tekton.dev/v1alpha1
+kind: TriggerBinding
+metadata:
+  name: pipeline-binding
+spec:
+  params:
+    - name: gitrevision
+      value: $(event.head_commit.id)
+    - name: gitrepositoryurl
+      value: $(event.repository.url)
+---
+apiVersion: tekton.dev/v1alpha1
+kind: TriggerBinding
+metadata:
+  name: manual-pipeline-binding
+spec:
+  params:
+    - name: gitrevision
+      value: v0.32.0
+    - name: gitrepositoryurl
+      value: https://github.com/GoogleContainerTools/skaffold
+---
+apiVersion: tekton.dev/v1alpha1
+kind: EventListener
+metadata:
+  name: listener
+spec:
+  triggers:
+    - binding:
+        name: pipeline-binding
+      template:
+        name: pipeline-template
+      params:
+        - name: message
+          value: Hello from the Git Triggers EventListener!
+---
+apiVersion: tekton.dev/v1alpha1
+kind: EventListener
+metadata:
+  name: manual-listener
+spec:
+  triggers:
+    - binding:
+        name: manual-pipeline-binding
+      template:
+        name: pipeline-template
+      params:
+        - name: message
+          value: Hello from the Manual Triggers EventListener!
