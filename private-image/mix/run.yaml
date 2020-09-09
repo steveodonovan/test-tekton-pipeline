@@ -48,6 +48,18 @@ spec:
     command: ["/bin/bash"]
     args: ['-c', 'for i in {1..2}; do echo GONLOGGIN 1 && sleep 1; done;'] # tests that targetpath works
 ---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task5
+spec:
+  steps:
+  - name: task-two-step-one
+    image: nginx
+    imagePullPolicy: IfNotPresent
+    command: ["/bin/bash"]
+    args: ['-c', 'for i in {1..2}; do echo GONLOGGIN 1 && sleep 1; done;'] # tests that targetpath works
+---
 #The Output of the first Task (git resource) create-file is given as an `Input`
 # to the next `Task` check-stuff-file-exists using`from` clause.
 
@@ -70,6 +82,9 @@ spec:
     runAfter: [task3]
     taskRef:
       name: task4
+  - name: task5
+    taskRef:
+      name: task5
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: TriggerTemplate
