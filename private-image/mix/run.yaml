@@ -10,6 +10,7 @@ spec:
     args: ['-c', 'for i in {1..2}; do echo GONLOGGIN 1 && sleep 1; done;'] # tests that targetpath works
   - name: task-one-step-two
     image: sodonovan/private-repo:my-private-ubuntu
+    imagePullPolicy: IfNotPresent
     command: ['bash']
     args: ['-c', 'for i in {1..2}; do echo GONLOGGIN 2 && sleep 1; done;'] 
 ---
@@ -43,6 +44,7 @@ spec:
   steps:
   - name: task-two-step-one
     image: sodonovan/private-repo:my-private-ubuntu
+    imagePullPolicy: IfNotPresent
     command: ["/bin/bash"]
     args: ['-c', 'for i in {1..2}; do echo GONLOGGIN 1 && sleep 1; done;'] # tests that targetpath works
 ---
