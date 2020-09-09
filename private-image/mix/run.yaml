@@ -22,6 +22,7 @@ spec:
   steps:
   - name: task-two-step-one
     image: ubuntu
+    imagePullPolicy: IfNotPresent
     command: ["/bin/bash"]
     args: ['-c', 'for i in {1..2}; do echo GONLOGGIN 1 && sleep 1; done;'] # tests that targetpath works
 ---
@@ -33,6 +34,7 @@ spec:
   steps:
   - name: task-two-step-one
     image: alpine
+    imagePullPolicy: IfNotPresent
     command: ["/bin/bash"]
     args: ['-c', 'for i in {1..2}; do echo GONLOGGIN 1 && sleep 1; done;'] # tests that targetpath works
 ---
