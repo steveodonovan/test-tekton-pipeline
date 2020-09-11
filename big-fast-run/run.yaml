@@ -281,8 +281,8 @@ spec:
       name: task12
   - name: task13
     taskRef:
-      name: task14
-  - name: task8
+      name: task13
+  - name: task14
     taskRef:
       name: task14
   - name: task15
@@ -299,7 +299,7 @@ spec:
       name: task18
   - name: task19
     taskRef:
-      name: task18
+      name: task19
   - name: task20
     taskRef:
       name: task20
