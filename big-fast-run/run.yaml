@@ -8,6 +8,7 @@ spec:
     image: ubuntu
     command: ['bash']
     args: ['-c', 'echo "Hello World!"']
+---
 apiVersion: tekton.dev/v1alpha1
 kind: Task
 metadata:
