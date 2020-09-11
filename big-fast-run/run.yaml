@@ -86,6 +86,149 @@ spec:
     command: ["/bin/bash"]
     args: ['-c', 'echo "Hello World!"']
 ---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task8
+spec:
+  steps:
+  - name: task8step1
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'echo "Hello World!"']
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task9
+spec:
+  steps:
+  - name: task9step1
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'echo "Hello World!"']
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task10
+spec:
+  steps:
+  - name: task10step1
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'echo "Hello World!"']
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task11
+spec:
+  steps:
+  - name: task11step1
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'echo "Hello World!"']
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task12
+spec:
+  steps:
+  - name: task12step1
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'echo "Hello World!"']
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task13
+spec:
+  steps:
+  - name: task13step1
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'echo "Hello World!"']
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task14
+spec:
+  steps:
+  - name: task14step1
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'echo "Hello World!"']
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task15
+spec:
+  steps:
+  - name: task15step1
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'echo "Hello World!"']
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task16
+spec:
+  steps:
+  - name: task16step1
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'echo "Hello World!"']
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task17
+spec:
+  steps:
+  - name: task17step1
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'echo "Hello World!"']
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task18
+spec:
+  steps:
+  - name: task18step1
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'echo "Hello World!"']
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task19
+spec:
+  steps:
+  - name: task19step1
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'echo "Hello World!"']
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task20
+spec:
+  steps:
+  - name: task20step1
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'echo "Hello World!"']
+---
 #The Output of the first Task (git resource) create-file is given as an `Input`
 # to the next `Task` check-stuff-file-exists using`from` clause.
 
@@ -121,6 +264,45 @@ spec:
   - name: bbtask7
     taskRef:
       name: bbtask7
+  - name: task8
+    taskRef:
+      name: task8
+  - name: task9
+    taskRef:
+      name: task9
+  - name: task10
+    taskRef:
+      name: task10
+  - name: task11
+    taskRef:
+      name: task11
+  - name: task12
+    taskRef:
+      name: task12
+  - name: task13
+    taskRef:
+      name: task14
+  - name: task8
+    taskRef:
+      name: task14
+  - name: task15
+    taskRef:
+      name: task15
+  - name: task16
+    taskRef:
+      name: task16
+  - name: task17
+    taskRef:
+      name: task17
+  - name: task18
+    taskRef:
+      name: task18
+  - name: task19
+    taskRef:
+      name: task18
+  - name: task20
+    taskRef:
+      name: task20
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: TriggerTemplate
