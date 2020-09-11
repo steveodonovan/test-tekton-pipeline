@@ -74,6 +74,7 @@ spec:
     image: ubuntu
     command: ["/bin/bash"]
     args: ['-c', 'echo "Hello World!"']
+---
 apiVersion: tekton.dev/v1alpha1
 kind: Task
 metadata:
