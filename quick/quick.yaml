@@ -7,7 +7,7 @@ spec:
   - name: task-one-step-one
     image: ubuntu
     command: ["/bin/bash"]
-    args: ['-c', 'for i in {1..2}; do echo GONLOGGIN 1 && sleep 1; done;'] # tests that targetpath works
+    args: ['-c', 'for i in {1..2}; do echo WARNING: GONLOGGIN 1 && sleep 1; done;'] # tests that targetpath works
   - name: task-one-step-two
     image: ubuntu
     command: ['bash']
