@@ -97,7 +97,7 @@ spec:
   finally:
     - name: do-something-finally
       taskRef: 
-        mame: finally
+        name: finally
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: TriggerTemplate
