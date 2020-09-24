@@ -96,7 +96,8 @@ spec:
         name: echo-file-exists
   finally:
     - name: do-something-finally
-      taskRef: finally
+      taskRef: 
+        mame: finally
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: TriggerTemplate
