@@ -120,7 +120,8 @@ spec:
         generateName: when-pipe-run
       spec:
         serviceAccountName: 'default'
-        pipelineRef: when-pipe
+        pipelineRef: 
+          name: when-pipe
         params:
           - name: path
             value: README.md
