@@ -62,7 +62,7 @@ spec:
   steps:
     - name: echo
       image: ubuntu
-      script: 'FINALLY DONE'
+      script: 'echo FINALLY DONE'
 ---
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
