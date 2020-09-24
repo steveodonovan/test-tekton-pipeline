@@ -47,6 +47,16 @@ spec:
 apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
+  name: task-should-be-skipped-2
+spec:
+  steps:
+    - name: echo
+      image: ubuntu
+      script: exit 1
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
   name: finally
 spec:
   steps:
@@ -94,6 +104,20 @@ spec:
           values: ["yes"]
       taskRef:
         name: echo-file-exists
+    - name: task-should-be-skipped-1
+      when:
+        - input: "$(tasks.check-file.results.exists)" # when expression using task result, evaluates to false
+          operator: in
+          values: ["missing"]
+      taskRef:
+        name: task-should-be-skipped-1
+    - name: task-should-be-skipped-2
+      when:
+        - input: "$(params.path)"
+          operator: notin
+          values: ["README.md"]
+      taskRef:
+        name: task-should-be-skipped-2
   finally:
     - name: do-something-finally
       taskRef: 
