@@ -1,0 +1,187 @@
+---
+apiVersion: tekton.dev/v1alpha1
+kind: TriggerTemplate
+metadata:
+  name: pipeline-template
+spec:
+  params:
+    - name: gitrevision
+      description: The git revision
+      default: master
+    - name: gitrepositoryurl
+      description: The git repository url
+    - name: message
+      description: The message to print
+      default: This is the default message
+  resourcetemplates:
+    - apiVersion: tekton.dev/v1beta1
+      kind: PipelineRun
+      metadata:
+        generateName: guarded-pr-
+      spec:
+        serviceAccountName: 'default'
+        pipelineSpec:
+          params:
+            - name: path
+              type: string
+              description: The path of the file to be created
+              default: './'
+          workspaces:
+            - name: source
+              description: |
+                This workspace is shared among all the pipeline tasks to read/write common resources
+          tasks:
+            - name: create-file # when expression using parameter, evaluates to true
+              when:
+                - input: "$(params.path)"
+                  operator: in
+                  values: ["README.md"]
+              workspaces:
+                - name: source
+                  workspace: source
+              taskSpec:
+                workspaces:
+                  - name: source
+                    description: The workspace to create the readme file in
+                steps:
+                  - name: write-new-stuff
+                    image: ubuntu
+                    script: 'touch $(workspaces.source.path)/README.md'
+            - name: check-file
+              params:
+                - name: path
+                  value: "$(params.path)"
+              workspaces:
+                - name: source
+                  workspace: source
+              runAfter:
+                - create-file
+              taskSpec:
+                params:
+                  - name: path
+                workspaces:
+                  - name: source
+                    description: The workspace to check for the file
+                results:
+                  - name: exists
+                    description: indicates whether the file exists or is missing
+                steps:
+                  - name: check-file
+                    image: alpine
+                    script: |
+                      if test -f $(workspaces.source.path)/$(params.path); then
+                        printf yes | tee /tekton/results/exists
+                      else
+                        printf no | tee /tekton/results/exists
+                      fi
+            - name: echo-file-exists # when expression using task result, evaluates to true
+              when:
+                - input: "$(tasks.check-file.results.exists)"
+                  operator: in
+                  values: ["yes"]
+              taskSpec:
+                steps:
+                  - name: echo
+                    image: ubuntu
+                    script: 'echo file exists'
+            - name: task-should-be-skipped-1
+              when:
+                - input: "$(tasks.check-file.results.exists)" # when expression using task result, evaluates to false
+                  operator: in
+                  values: ["missing"]
+              taskSpec:
+                steps:
+                  - name: echo
+                    image: ubuntu
+                    script: exit 1
+            - name: task-should-be-skipped-2 # when expression using parameter, evaluates to false
+              when:
+                - input: "$(params.path)"
+                  operator: notin
+                  values: ["README.md"]
+              taskSpec:
+                steps:
+                  - name: echo
+                    image: ubuntu
+                    script: exit 1
+            - name: task-should-be-skipped-3 # task with when expression and run after
+              runAfter:
+                - echo-file-exists
+              when:
+                - input: "monday"
+                  operator: in
+                  values: ["friday"]
+              taskSpec:
+                steps:
+                  - name: echo
+                    image: ubuntu
+                    script: exit 1
+          finally:
+            - name: do-something-finally
+              taskSpec:
+                steps:
+                  - name: echo
+                    image: ubuntu
+                    script: 'echo finally done'
+        params:
+          - name: path
+            value: README.md
+        workspaces:
+          - name: source
+            volumeClaimTemplate:
+              spec:
+                accessModes:
+                  - ReadWriteOnce
+                resources:
+                  requests:
+                    storage: 16Mi
+---
+apiVersion: tekton.dev/v1alpha1
+kind: TriggerBinding
+metadata:
+  name: pipeline-binding
+spec:
+  params:
+    - name: gitrevision
+      value: $(event.head_commit.id)
+    - name: gitrepositoryurl
+      value: $(event.repository.url)
+---
+apiVersion: tekton.dev/v1alpha1
+kind: TriggerBinding
+metadata:
+  name: manual-pipeline-binding
+spec:
+  params:
+    - name: gitrevision
+      value: v0.32.0
+    - name: gitrepositoryurl
+      value: https://github.com/GoogleContainerTools/skaffold
+---
+apiVersion: tekton.dev/v1alpha1
+kind: EventListener
+metadata:
+  name: listener
+spec:
+  triggers:
+    - binding:
+        name: pipeline-binding
+      template:
+        name: pipeline-template
+      params:
+        - name: message
+          value: Hello from the Git Triggers EventListener!
+---
+apiVersion: tekton.dev/v1alpha1
+kind: EventListener
+metadata:
+  name: manual-listener
+spec:
+  triggers:
+    - binding:
+        name: manual-pipeline-binding
+      template:
+        name: pipeline-template
+      params:
+        - name: message
+          value: Hello from the Manual Triggers EventListener!
