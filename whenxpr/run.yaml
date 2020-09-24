@@ -47,6 +47,16 @@ spec:
 apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
+  name: task-should-be-skipped-1
+spec:
+  steps:
+    - name: echo
+      image: ubuntu
+      script: exit 1
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
   name: task-should-be-skipped-2
 spec:
   steps:
