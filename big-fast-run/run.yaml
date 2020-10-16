@@ -62,7 +62,7 @@ spec:
   - name: quickandonelinethirdt5
     image: ubuntu
     command: ['bash']
-    args: ['-c', 'echo "Hello World!"']
+    args: ['-c', 'echo "Hello World!" && return 1;']
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: Task
