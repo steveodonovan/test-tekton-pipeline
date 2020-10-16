@@ -1,0 +1,502 @@
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: atask1
+spec:
+  steps:
+  - name: quickandonelinethirdt1
+    image: ubuntu
+    command: ['bash']
+    args: ['-c', 'echo "Hello World!"'] 
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: emptylogs
+spec:
+  steps:
+  - name: quickandonelinefirst
+    image: ubuntu
+    command: ['bash']
+    args: ['-c', 'echo "Hello World!"'] 
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task2
+spec:
+  steps:
+  - name: task-two-step-one
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'echo "Hello World!"']
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task3
+spec:
+  steps:
+  - name: task-three-step-one
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'echo "Hello World!"']
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task4
+spec:
+  steps:
+  - name: task4step1
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'echo "Hello World!"']
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task5
+spec:
+  steps:
+  - name: quickandonelinethirdt5
+    image: ubuntu
+    command: ['bash']
+    args: ['-c', 'echo "Hello World!" && return 1;']
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task6
+spec:
+  steps:
+  - name: task6step1
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'echo "Hello World!"']
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: bbtask7
+spec:
+  steps:
+  - name: task7step1
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'echo "Hello World!"']
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task8
+spec:
+  steps:
+  - name: task8step1
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'echo "Hello World!"']
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task9
+spec:
+  steps:
+  - name: task9step1
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'echo "Hello World!"']
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task10
+spec:
+  steps:
+  - name: task10step1
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'echo "Hello World!"']
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task11
+spec:
+  steps:
+  - name: task11step1
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'echo "Hello World!"']
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task12
+spec:
+  steps:
+  - name: task12step1
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'echo "Hello World!"']
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task13
+spec:
+  steps:
+  - name: task13step1
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'echo "Hello World!"']
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task14
+spec:
+  steps:
+  - name: task14step1
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'echo "Hello World!"']
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task15
+spec:
+  steps:
+  - name: task15step1
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'echo "Hello World!"']
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task16
+spec:
+  steps:
+  - name: task16step1
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'echo "Hello World!"']
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task17
+spec:
+  steps:
+  - name: task17step1
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'echo "Hello World!"']
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task18
+spec:
+  steps:
+  - name: task18step1
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'echo "Hello World!"']
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task19
+spec:
+  steps:
+  - name: task19step1
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'echo "Hello World!"']
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task20
+spec:
+  steps:
+  - name: task20step1
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'for i in {1..300}; do echo GONLOGGIN $i; done;']
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task21
+spec:
+  steps:
+  - name: task21step1
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'for i in {1..300}; do echo GONLOGGIN $i; done;']
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task22
+spec:
+  steps:
+  - name: task22step1
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'for i in {1..300}; do echo GONLOGGIN $i; done;']
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task23
+spec:
+  steps:
+  - name: task23step1
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'for i in {1..300}; do echo GONLOGGIN $i; done;']
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task24
+spec:
+  steps:
+  - name: task24step1
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'for i in {1..300}; do echo GONLOGGIN $i; done;']
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task25
+spec:
+  steps:
+  - name: task25step1
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'for i in {1..300}; do echo GONLOGGIN $i; done;']
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task26
+spec:
+  steps:
+  - name: task26step1
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'for i in {1..300}; do echo GONLOGGIN $i; done;']
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task27
+spec:
+  steps:
+  - name: task27step1
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'for i in {1..300}; do echo GONLOGGIN $i; done;']
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task28
+spec:
+  steps:
+  - name: task28step1
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'for i in {1..300}; do echo GONLOGGIN $i; done;']
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task29
+spec:
+  steps:
+  - name: task29step1
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'for i in {1..300}; do echo GONLOGGIN $i; done;']
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task30
+spec:
+  steps:
+  - name: task30step1
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'for i in {1..300}; do echo GONLOGGIN $i; done;']
+---
+#The Output of the first Task (git resource) create-file is given as an `Input`
+# to the next `Task` check-stuff-file-exists using`from` clause.
+
+apiVersion: tekton.dev/v1alpha1
+kind: Pipeline
+metadata:
+  name: 999-working-logs-long
+spec:
+  tasks:
+  - name: atask1
+    runAfter: [task3]
+    taskRef:
+      name: atask1
+  - name: emptylogs
+    runAfter: [task3]
+    taskRef:
+      name: emptylogs
+  - name: task2
+    taskRef:
+      name: task2
+  - name: task3
+    taskRef:
+      name: task3
+  - name: task4
+    taskRef:
+      name: task3
+  - name: task5-somethingelse
+    taskRef:
+      name: task5
+  - name: task6
+    taskRef:
+      name: task6
+  - name: bbtask7
+    taskRef:
+      name: bbtask7
+  - name: task8
+    taskRef:
+      name: task8
+  - name: task9
+    taskRef:
+      name: task9
+  - name: task10
+    taskRef:
+      name: task10
+  - name: task11
+    taskRef:
+      name: task11
+  - name: task12
+    taskRef:
+      name: task12
+  - name: task13
+    taskRef:
+      name: task13
+  - name: task14
+    taskRef:
+      name: task14
+  - name: task15
+    taskRef:
+      name: task15
+  - name: task16
+    taskRef:
+      name: task16
+  - name: task17
+    taskRef:
+      name: task17
+  - name: task18
+    taskRef:
+      name: task18
+  - name: task19
+    taskRef:
+      name: task19
+---
+apiVersion: tekton.dev/v1alpha1
+kind: TriggerTemplate
+metadata:
+  name: pipeline-template
+spec:
+  params:
+    - name: gitrevision
+      description: The git revision
+      default: master
+    - name: gitrepositoryurl
+      description: The git repository url
+    - name: message
+      description: The message to print
+      default: This is the default message
+  resourcetemplates:
+    - apiVersion: tekton.dev.what/v1alpha1
+      kind: PipelineResource
+      metadata:
+        name: git-source-$(uid)
+        labels:
+          triggertemplated: "true"
+          generatedBy: "triggers-example"
+      spec:
+        type: git
+        params:
+        - name: revision
+          value: $(params.gitrevision)
+        - name: url
+          value: $(params.gitrepositoryurl)
+    - apiVersion: tekton.dev/v1alpha1
+      kind: PipelineRun
+      metadata:
+        generateName: cutting-down-trees-run
+        labels:
+          triggertemplated: "true"
+          generatedBy: "triggers-example"
+      spec:
+        pipelineRef:
+          name: 999-working-logs-long
+---
+apiVersion: tekton.dev/v1alpha1
+kind: TriggerBinding
+metadata:
+  name: pipeline-binding
+spec:
+  params:
+    - name: gitrevision
+      value: $(event.head_commit.id)
+    - name: gitrepositoryurl
+      value: $(event.repository.url)
+---
+apiVersion: tekton.dev/v1alpha1
+kind: TriggerBinding
+metadata:
+  name: manual-pipeline-binding
+spec:
+  params:
+    - name: gitrevision
+      value: v0.32.0
+    - name: gitrepositoryurl
+      value: https://github.com/GoogleContainerTools/skaffold
+---
+apiVersion: tekton.dev/v1alpha1
+kind: EventListener
+metadata:
+  name: listener
+spec:
+  triggers:
+    - binding:
+        name: pipeline-binding
+      template:
+        name: pipeline-template
+      params:
+        - name: message
+          value: Hello from the Git Triggers EventListener!
+---
+apiVersion: tekton.dev/v1alpha1
+kind: EventListener
+metadata:
+  name: manual-listener
+spec:
+  triggers:
+    - binding:
+        name: manual-pipeline-binding
+      template:
+        name: pipeline-template
+      params:
+        - name: message
+          value: Hello from the Manual Triggers EventListener!
