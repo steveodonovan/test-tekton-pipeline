@@ -7,7 +7,7 @@ spec:
   - name: quickandonelinethirdt1
     image: ubuntu
     command: ['bash']
-    args: ['-c', 'echo "Hello World!"']
+    args: ['-c', 'for i in {1..300}; do echo GONLOGGIN $i; done;"']
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: Task
