@@ -7,7 +7,7 @@ spec:
   - name: quickandonelinethirdt1
     image: ubuntu
     command: ['bash']
-    args: ['-c', 'for i in {1..300}; do echo GONLOGGIN $i; done;"']
+    args: ['-c', 'for i in {1..300}; do echo GONLOGGIN $i; done;']
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: Task
@@ -227,7 +227,117 @@ spec:
   - name: task20step1
     image: ubuntu
     command: ["/bin/bash"]
-    args: ['-c', 'echo "Hello World!"']
+    args: ['-c', 'for i in {1..300}; do echo GONLOGGIN $i; done;']
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task21
+spec:
+  steps:
+  - name: task21step1
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'for i in {1..300}; do echo GONLOGGIN $i; done;']
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task22
+spec:
+  steps:
+  - name: task22step1
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'for i in {1..300}; do echo GONLOGGIN $i; done;']
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task23
+spec:
+  steps:
+  - name: task23step1
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'for i in {1..300}; do echo GONLOGGIN $i; done;']
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task24
+spec:
+  steps:
+  - name: task24step1
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'for i in {1..300}; do echo GONLOGGIN $i; done;']
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task25
+spec:
+  steps:
+  - name: task25step1
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'for i in {1..300}; do echo GONLOGGIN $i; done;']
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task26
+spec:
+  steps:
+  - name: task26step1
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'for i in {1..300}; do echo GONLOGGIN $i; done;']
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task27
+spec:
+  steps:
+  - name: task27step1
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'for i in {1..300}; do echo GONLOGGIN $i; done;']
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task28
+spec:
+  steps:
+  - name: task28step1
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'for i in {1..300}; do echo GONLOGGIN $i; done;']
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task29
+spec:
+  steps:
+  - name: task29step1
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'for i in {1..300}; do echo GONLOGGIN $i; done;']
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task30
+spec:
+  steps:
+  - name: task30step1
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'for i in {1..300}; do echo GONLOGGIN $i; done;']
 ---
 #The Output of the first Task (git resource) create-file is given as an `Input`
 # to the next `Task` check-stuff-file-exists using`from` clause.
@@ -303,6 +413,36 @@ spec:
   - name: task20
     taskRef:
       name: task20
+  - name: task21
+    taskRef:
+      name: task21
+  - name: task22
+    taskRef:
+      name: task22
+  - name: task23
+    taskRef:
+      name: task23
+  - name: task24
+    taskRef:
+      name: task24
+  - name: task25
+    taskRef:
+      name: task25
+  - name: task26
+    taskRef:
+      name: task26
+  - name: task27
+    taskRef:
+      name: task27
+  - name: task28
+    taskRef:
+      name: task28
+  - name: task29
+    taskRef:
+      name: task29
+  - name: task30
+    taskRef:
+      name: task30
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: TriggerTemplate
