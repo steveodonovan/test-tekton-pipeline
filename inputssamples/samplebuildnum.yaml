@@ -17,7 +17,7 @@ spec:
         - name: SEC_PROP
           value: $(params.secprop)
       command: ['bash']
-      args: ['-c', 'for i in {1..3}; do echo $BUILD_NUMBER 2 && sleep 3 && echo $SEC_PROP && fail; done;'] 
+      args: ['-c', 'for i in {1..3}; do echo $BUILD_NUMBER 2 && sleep 3 && echo $SEC_PROP && exit 0; done;'] 
 ---
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
