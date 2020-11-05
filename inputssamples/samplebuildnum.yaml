@@ -5,15 +5,19 @@ metadata:
 spec:
   params:
     - name: buildnumber
-      description: test       
+      description: test
+    - name: secprop
+      description: test   
   steps:
     - name: task-two-step-four
       image: ubuntu
       env:
         - name: BUILD_NUMBER
           value: $(params.buildnumber)
+        - name: SEC_PROP
+          value: $(params.secprop)
       command: ['bash']
-      args: ['-c', 'for i in {1..3}; do echo $BUILD_NUMBER 2 && sleep 3; done;'] 
+      args: ['-c', 'for i in {1..3}; do echo $BUILD_NUMBER 2 && sleep 3 && echo $SEC_PROP; done;'] 
 ---
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
@@ -23,6 +27,8 @@ spec:
   params:
     - name: buildnumber
       description: the pipeline pvc name
+    - name: secprop
+      description: test
   tasks:
     - name: sample-out-task
       taskRef:
@@ -30,6 +36,8 @@ spec:
       params:
         - name: buildnumber
           value: $(params.buildnumber)
+        - name: secprop
+          value: $(params.secprop)
 ---
 apiVersion: tekton.dev/v1beta1
 kind: TriggerTemplate
@@ -40,6 +48,8 @@ spec:
     - name: buildnumber
       description: thebuildnuminput
       default: buildnumberfailedjerh
+    - name: secprop
+      description: secval
   resourcetemplates:
     - apiVersion: tekton.dev/v1beta1
       kind: PipelineRun
@@ -51,6 +61,8 @@ spec:
         params:
         - name: buildnumber
           value: $(params.buildnumber)
+        - name: secprop
+          value: $(params.secprop)
 ---
 apiVersion: tekton.dev/v1beta1
 kind: TriggerBinding
