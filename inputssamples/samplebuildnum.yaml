@@ -37,10 +37,11 @@ spec:
           value: $(params.buildnumber)
         - name: SEC_PROP
           value: $(params.secprop)
-       script: |
+      script: |
         #!/bin/bash
         echo "test script value $SEC_PROP"
         exit 0
+
 ---
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
