@@ -3,10 +3,9 @@ kind: Task
 metadata:
   name: sample-out-task
 spec:
-  inputs:
-    params:
-      - name: buildnumber
-        description: test       
+  params:
+    - name: buildnumber
+      description: test       
   steps:
     - name: task-two-step-four
       image: ubuntu
@@ -28,6 +27,9 @@ spec:
     - name: sample-out-task
       taskRef:
         name: sample-out-task
+      params:
+        - name: buildnumber
+          value: $(params.buildnumber)
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: TriggerTemplate
