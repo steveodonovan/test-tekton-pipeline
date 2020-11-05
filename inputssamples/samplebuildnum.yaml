@@ -14,7 +14,7 @@ spec:
         - name: BUILD_NUMBER
           value: $(inputs.params.buildnumber)
       command: ['bash']
-      args: ['-c', 'for i in {1..3}; do echo BUILD_NUMBER 2 && sleep 3; done;'] 
+      args: ['-c', 'for i in {1..3}; do echo $BUILD_NUMBER 2 && sleep 3; done;'] 
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: Pipeline
