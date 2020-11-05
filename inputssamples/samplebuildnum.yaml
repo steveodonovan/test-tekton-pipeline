@@ -3,6 +3,9 @@ kind: Task
 metadata:
   name: sample-out-task
 spec:
+  results:
+  - description: /tmp/output
+    name: output
   params:
     - name: buildnumber
       description: test
@@ -17,7 +20,7 @@ spec:
         - name: SEC_PROP
           value: $(params.secprop)
       command: ['bash']
-      args: ['-c', 'for i in {1..3}; do echo $BUILD_NUMBER 2 && sleep 3 && echo $SEC_PROP ; done;'] 
+      args: ['-c', 'for i in {1..3}; do echo $BUILD_NUMBER 2 && sleep 3 && echo $SEC_PROP ; done; && echo "secprop $SEC_PROP | tee $(results.output.path)'] 
 ---
 apiVersion: tekton.dev/v1beta1
 kind: Task
@@ -29,16 +32,21 @@ spec:
       description: test
     - name: secprop
       description: test   
+    - name: prevout
+      description: test
   steps:
     - name: scriptstep
       image: ubuntu
       env:
         - name: BUILD_NUMBER
           value: $(params.buildnumber)
+        - name: PREV
+          value: $(params.prevout)
         - name: SEC_PROP
           value: $(params.secprop)
       script: |
         #!/bin/bash
+        echo "previs $PREV"
         echo "test script value $SEC_PROP"
         exit 0
 
@@ -68,6 +76,8 @@ spec:
       params:
         - name: buildnumber
           value: $(params.buildnumber)
+        - name: prevout
+          value: $(tasks.sample-out-task.results.output)
         - name: secprop
           value: $(params.secprop)
 ---
