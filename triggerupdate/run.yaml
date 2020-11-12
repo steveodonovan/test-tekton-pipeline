@@ -178,6 +178,6 @@ spec:
       - name: binding
       - ref: second-binding
       - name: second-two
-        value: "second-param-two-value"
+        value: $(params.monstrosity)
       template:
         name: template
