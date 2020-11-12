@@ -178,7 +178,7 @@ metadata:
   name: listener
 spec:
   triggers:
-    - binding:
+    - bindings:
       - name: binding
       - name: second-binding
       template:
