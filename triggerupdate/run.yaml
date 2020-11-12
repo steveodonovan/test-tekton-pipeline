@@ -157,7 +157,7 @@ spec:
     - name: first-one
       value: "first-param-one-value"
     - name: first-two
-      value: "first-param-second-value"
+      value: $(params.first-two)
 ---
 apiVersion: tekton.dev/v1beta1
 kind: TriggerBinding
