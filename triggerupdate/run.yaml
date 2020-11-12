@@ -139,13 +139,13 @@ spec:
           value: $(params.buildnumber)
         - name: secprop
           value: $(params.secprop)
-        - name: buildnumber
+        - name: first-one
           value: $(params.first-one)
-        - name: secprop
+        - name: first-two
           value: $(params.first-two)
-        - name: buildnumber
+        - name: second-one
           value: $(params.second-one)
-        - name: secprop
+        - name: second-two
           value: $(params.second-two)
 ---
 apiVersion: tekton.dev/v1beta1
