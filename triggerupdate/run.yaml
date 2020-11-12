@@ -86,8 +86,6 @@ spec:
           value: $(params.buildnumber)
         - name: secprop
           value: $(params.secprop)
-        - name: prevout
-          value: $(tasks.sample-out-task.results.output)
         - name: f1
           value: $(params.first-one)
         - name: f2
