@@ -179,7 +179,7 @@ metadata:
 spec:
   triggers:
     - binding:
-       - name: binding
-       - name: second-binding
+      - name: binding
+      - name: second-binding
       template:
         name: template
