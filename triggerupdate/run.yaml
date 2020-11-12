@@ -140,7 +140,7 @@ spec:
         - name: secprop
           value: $(params.secprop)
         - name: first-one
-          value: $(params.first-one)
+          value: $(tt.first-one)
         - name: first-two
           value: $(params.first-two)
         - name: second-one
