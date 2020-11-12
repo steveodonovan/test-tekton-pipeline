@@ -86,13 +86,13 @@ spec:
           value: $(params.buildnumber)
         - name: secprop
           value: $(params.secprop)
-        - name: f1
+        - name: first-one
           value: $(params.first-one)
-        - name: f2
+        - name: first-two
           value:  $(params.first-two)
-        - name: s1
+        - name: second-one
           value: $(params.second-one)
-        - name: s2
+        - name: second-two
           value: $(params.second-two)
     - name: sample-out-task-script
       taskRef:
