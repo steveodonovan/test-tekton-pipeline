@@ -1,0 +1,185 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: sample-out-task
+spec:
+  results:
+  - description: /tmp/output
+    name: output
+  params:
+    - name: buildnumber
+      description: test
+    - name: secprop
+      description: test
+    - name: first-one
+    - name: first-two
+    - name: second-one
+    - name: second-two
+  steps:
+    - name: task-two-step-four
+      image: ubuntu
+      env:
+        - name: BUILD_NUMBER
+          value: $(params.buildnumber)
+        - name: SEC_PROP
+          value: $(params.secprop)
+        - name: f1
+          value: $(params.first-one)
+        - name: f2
+          value:  $(params.first-two)
+        - name: s1
+          value: $(params.second-one)
+        - name: s2
+          value: $(params.second-two)
+      command: ['bash']
+      args: ['-c', 'echo " f1 - $f1, f2 - $f2, s1 - $s1, s2 - $s2" && echo "secprop $SEC_PROP" | tee $(results.output.path)'] 
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: sample-out-task-script
+spec:
+  params:
+    - name: buildnumber
+      description: test
+    - name: secprop
+      description: test   
+    - name: prevout
+      description: test
+  steps:
+    - name: scriptstep
+      image: ubuntu
+      env:
+        - name: BUILD_NUMBER
+          value: $(params.buildnumber)
+        - name: PREV
+          value: $(params.prevout)
+        - name: SEC_PROP
+          value: $(params.secprop)
+      script: |
+        #!/bin/bash
+        echo "previs $PREV"
+        echo "test script value $SEC_PROP"
+        exit 0
+
+---
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: pipeline
+spec:
+  params:
+    - name: buildnumber
+      description: the pipeline pvc name
+    - name: secprop
+      description: test
+    - name: first-one
+    - name: first-two
+    - name: second-one
+    - name: second-two
+  tasks:
+    - name: sample-out-task
+      taskRef:
+        name: sample-out-task
+      params:
+        - name: buildnumber
+          value: $(params.buildnumber)
+        - name: secprop
+          value: $(params.secprop)
+        - name: prevout
+          value: $(tasks.sample-out-task.results.output)
+        - name: f1
+          value: $(params.first-one)
+        - name: f2
+          value:  $(params.first-two)
+        - name: s1
+          value: $(params.second-one)
+        - name: s2
+          value: $(params.second-two)
+    - name: sample-out-task-script
+      taskRef:
+        name: sample-out-task-script
+      params:
+        - name: buildnumber
+          value: $(params.buildnumber)
+        - name: prevout
+          value: $(tasks.sample-out-task.results.output)
+        - name: secprop
+          value: $(params.secprop)
+---
+apiVersion: tekton.dev/v1beta1
+kind: TriggerTemplate
+metadata:
+  name: template
+spec:
+  params:
+    - name: buildnumber
+      description: thebuildnuminput
+      default: buildnumberfailedjerh
+    - name: secprop
+      description: secval
+    - name: gitrevision
+      description: The git revision
+      default: master
+    - name: first-one
+    - name: first-two
+    - name: second-one
+    - name: second-two
+    - name: message
+      description: The message to print
+      default: This is the default message
+  resourcetemplates:
+    - apiVersion: tekton.dev/v1beta1
+      kind: PipelineRun
+      metadata:
+        name: pipelinerun-$(uid)
+      spec:
+        pipelineRef:
+            name: pipeline
+        params:
+        - name: buildnumber
+          value: $(params.buildnumber)
+        - name: secprop
+          value: $(params.secprop)
+        - name: buildnumber
+          value: $(params.first-one)
+        - name: secprop
+          value: $(params.first-two)
+        - name: buildnumber
+          value: $(params.second-one)
+        - name: secprop
+          value: $(params.second-two)
+---
+apiVersion: tekton.dev/v1beta1
+kind: TriggerBinding
+metadata:
+  name: binding
+spec:
+  params:
+    - name: first-one
+      value: "first-param-one-value"
+    - name: first-two
+      value: "first-param-second-value"
+---
+apiVersion: tekton.dev/v1beta1
+kind: TriggerBinding
+metadata:
+  name: second-binding
+spec:
+  params:
+    - name: second-one
+      value: "second-param-one-value"
+    - name: second-two
+      value: "second-param-two-value"
+---
+apiVersion: tekton.dev/v1beta1
+kind: EventListener
+metadata:
+  name: listener
+spec:
+  triggers:
+    - binding:
+        - name: binding
+        - name: second-binding
+      template:
+        name: template
