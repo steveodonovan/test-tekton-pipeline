@@ -167,8 +167,6 @@ spec:
   params:
     - name: second-one
       value: "second-param-one-value"
-    - name: second-two
-      value: "second-param-two-value"
 ---
 apiVersion: tekton.dev/v1beta1
 kind: EventListener
@@ -178,6 +176,8 @@ spec:
   triggers:
     - bindings:
       - name: binding
-      - name: second-binding
+      - ref: second-binding
+      - name: second-two
+        value: "second-param-two-value"
       template:
         name: template
