@@ -15,6 +15,7 @@ spec:
     - name: first-two
     - name: second-one
     - name: second-two
+    - name: arrayvalz
   steps:
     - name: task-two-step-four
       image: ubuntu
@@ -31,8 +32,10 @@ spec:
           value: $(params.second-one)
         - name: s2
           value: $(params.second-two)
+        - name: arrayvalz
+          value: $(params.arrayvalz)
       command: ['bash']
-      args: ['-c', 'echo " f1 - $f1, f2 - $f2, s1 - $s1, s2 - $s2" && echo "secprop $SEC_PROP" | tee $(results.output.path)'] 
+      args: ['-c', 'echo " f1 - $f1, f2 - $f2, s1 - $s1, s2 - $s2, arrayvalz - $arrayvalz" && echo "secprop $SEC_PROP" | tee $(results.output.path)'] 
 ---
 apiVersion: tekton.dev/v1beta1
 kind: Task
@@ -77,6 +80,7 @@ spec:
     - name: first-two
     - name: second-one
     - name: second-two
+    - name: arrayvalz
   tasks:
     - name: sample-out-task
       taskRef:
@@ -94,6 +98,8 @@ spec:
           value: $(params.second-one)
         - name: second-two
           value: $(params.second-two)
+        - name: arrayvalz
+          value: $(params.arrayvalz)
     - name: sample-out-task-script
       taskRef:
         name: sample-out-task-script
@@ -126,6 +132,8 @@ spec:
     - name: message
       description: The message to print
       default: This is the default message
+    - name: event-array-val0
+      default: "its not this"
   resourcetemplates:
     - apiVersion: tekton.dev/v1beta1
       kind: PipelineRun
@@ -147,6 +155,8 @@ spec:
           value: $(params.second-one)
         - name: second-two
           value: $(params.second-two)
+        - name: arrayvalz
+          value: $(params.event-array-val0)
 ---
 apiVersion: tekton.dev/v1beta1
 kind: TriggerBinding
@@ -158,6 +168,8 @@ spec:
       value: "first-param-one-value"
     - name: first-two
       value: $(params.first-two)
+    - name: event-array-val0
+      value: $(event.body.array[0])
 ---
 apiVersion: tekton.dev/v1beta1
 kind: TriggerBinding
