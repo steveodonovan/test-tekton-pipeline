@@ -84,6 +84,7 @@ spec:
     - name: second-one
     - name: second-two
     - name: arrayvalz
+    - name: eventvalue
   tasks:
     - name: sample-out-task
       taskRef:
@@ -103,6 +104,8 @@ spec:
           value: $(params.second-two)
         - name: arrayvalz
           value: $(params.arrayvalz)
+        - name: eventvalue
+          value: $(params.eventvalue)
     - name: sample-out-task-script
       taskRef:
         name: sample-out-task-script
