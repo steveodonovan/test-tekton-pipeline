@@ -132,11 +132,13 @@ spec:
     - name: first-two
     - name: second-one
     - name: second-two
+    - name: eventvalue
+      default: "its not this EV"
     - name: message
       description: The message to print
       default: This is the default message
     - name: event-array-val0
-      default: "its not this"
+      default: "its not this ARV"
   resourcetemplates:
     - apiVersion: tekton.dev/v1beta1
       kind: PipelineRun
@@ -161,7 +163,7 @@ spec:
         - name: arrayvalz
           value: $(params.event-array-val0)
         - name: eventvalue
-          value: $(event.body.simpleval)
+          value: $(params.eventvalue)
 ---
 apiVersion: tekton.dev/v1beta1
 kind: TriggerBinding
@@ -175,6 +177,8 @@ spec:
       value: $(params.first-two)
     - name: event-array-val0
       value: $(event.body.array[0])
+    - name: eventvalue
+      value: $(event.body.simpleval)
 ---
 apiVersion: tekton.dev/v1beta1
 kind: TriggerBinding
