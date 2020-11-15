@@ -16,6 +16,7 @@ spec:
     - name: second-one
     - name: second-two
     - name: arrayvalz
+    - name: eventvalue
   steps:
     - name: task-two-step-four
       image: ubuntu
@@ -34,8 +35,10 @@ spec:
           value: $(params.second-two)
         - name: arrayvalz
           value: $(params.arrayvalz)
+        - name: eventvalue
+          value: $(params.eventvalue)
       command: ['bash']
-      args: ['-c', 'echo " f1 - $f1, f2 - $f2, s1 - $s1, s2 - $s2, arrayvalz - $arrayvalz" && echo "secprop $SEC_PROP" | tee $(results.output.path)'] 
+      args: ['-c', 'echo " f1 - $f1, f2 - $f2, s1 - $s1, s2 - $s2, arrayvalz - $arrayvalz, eventval - $eventvalue" && echo "secprop $SEC_PROP" | tee $(results.output.path)'] 
 ---
 apiVersion: tekton.dev/v1beta1
 kind: Task
@@ -157,6 +160,8 @@ spec:
           value: $(params.second-two)
         - name: arrayvalz
           value: $(params.event-array-val0)
+        - name: eventvalue
+          value: $(event.body.simpleval)
 ---
 apiVersion: tekton.dev/v1beta1
 kind: TriggerBinding
