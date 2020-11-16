@@ -20,7 +20,7 @@ metadata:
 spec:
   steps:
   - name: task-two-step-one
-    image: sodonovan/private-repo:my-private-ubuntu
+    image: us.icr.io/opentoolchain/pipeline-base-bog
     command: ["/bin/bash"]
     args: ['-c', 'for i in {1..2}; do echo GONLOGGIN 1 && sleep 1; done;'] # tests that targetpath works
 ---
@@ -62,9 +62,17 @@ spec:
         name: stevespullsecret
       type: kubernetes.io/dockerconfigjson
     - apiVersion: v1
+      kind: Secret
+      data:
+        .dockerconfigjson: $(params.icrsecret)
+      metadata:
+        name: icrsecret
+      type: kubernetes.io/dockerconfigjson
+    - apiVersion: v1
       kind: ServiceAccount
       imagePullSecrets:
         - name: stevespullsecret
+        - name: icrsecret
       metadata:
         name: sa-pullsecret
     - apiVersion: tekton.dev/v1beta1
