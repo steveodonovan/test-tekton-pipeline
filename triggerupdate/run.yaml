@@ -18,6 +18,7 @@ spec:
     - name: arrayvalz
     - name: eventvalue
     - name: envvalue
+    - name: envjson
   steps:
     - name: task-two-step-four
       image: ubuntu
@@ -40,8 +41,10 @@ spec:
           value: $(params.eventvalue)
         - name: envvalue
           value: $(params.envvalue)
+        - name: envjson
+          value: $(params.envjson)
       command: ['bash']
-      args: ['-c', 'echo " f1 - $f1, f2 - $f2, s1 - $s1, s2 - $s2, arrayvalz - $arrayvalz, eventval - $eventvalue, envvalue - $envvalue " && echo "secprop $SEC_PROP" | tee $(results.output.path)'] 
+      args: ['-c', 'echo " f1 - $f1, f2 - $f2, s1 - $s1, s2 - $s2, arrayvalz - $arrayvalz, eventval - $eventvalue, envvalue - $envvalue, envjson - $envjson " && echo "secprop $SEC_PROP" | tee $(results.output.path)'] 
 ---
 apiVersion: tekton.dev/v1beta1
 kind: Task
@@ -87,6 +90,7 @@ spec:
     - name: second-one
     - name: second-two
     - name: envvalue
+    - name: envjson
     - name: arrayvalz
     - name: eventvalue
   tasks:
@@ -112,6 +116,8 @@ spec:
           value: $(params.eventvalue)
         - name: envvalue
           value: $(params.envvalue)
+        - name: envjson
+          value: $(params.envjson)
     - name: sample-out-task-script
       taskRef:
         name: sample-out-task-script
@@ -141,6 +147,7 @@ spec:
     - name: first-two
     - name: second-one
     - name: second-two
+    - name: envvalue
     - name: envvalue
     - name: eventvalue
       default: "its not this EV"
@@ -176,6 +183,8 @@ spec:
           value: $(params.eventvalue)
         - name: envvalue
           value: $(params.envvalue)
+        - name: envjson
+          value: $(params.envjson)
 ---
 apiVersion: tekton.dev/v1beta1
 kind: TriggerBinding
@@ -193,6 +202,8 @@ spec:
       value: $(event.body.simpleval)
     - name: envvalue
       value: $(env.test.dashboard_url)
+    - name: envjson
+      value: $(env.test)
 ---
 apiVersion: tekton.dev/v1beta1
 kind: TriggerBinding
