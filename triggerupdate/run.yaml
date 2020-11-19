@@ -17,6 +17,7 @@ spec:
     - name: second-two
     - name: arrayvalz
     - name: eventvalue
+    - name: envvalue
   steps:
     - name: task-two-step-four
       image: ubuntu
