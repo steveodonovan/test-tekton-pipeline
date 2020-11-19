@@ -179,7 +179,7 @@ spec:
     - name: first-two
       value: $(params.first-two)
     - name: event-array-val0
-      value: $(event.body.array[0])
+      value: $(event.body.array-hyp[0])
     - name: eventvalue
       value: $(event.body.simpleval)
 ---
