@@ -37,8 +37,10 @@ spec:
           value: $(params.arrayvalz)
         - name: eventvalue
           value: $(params.eventvalue)
+        - name: envvalue
+          value: $(params.envvalue)
       command: ['bash']
-      args: ['-c', 'echo " f1 - $f1, f2 - $f2, s1 - $s1, s2 - $s2, arrayvalz - $arrayvalz, eventval - $eventvalue" && echo "secprop $SEC_PROP" | tee $(results.output.path)'] 
+      args: ['-c', 'echo " f1 - $f1, f2 - $f2, s1 - $s1, s2 - $s2, arrayvalz - $arrayvalz, eventval - $eventvalue", envvalue - $envvalue" && echo "secprop $SEC_PROP" | tee $(results.output.path)'] 
 ---
 apiVersion: tekton.dev/v1beta1
 kind: Task
@@ -83,6 +85,7 @@ spec:
     - name: first-two
     - name: second-one
     - name: second-two
+    - name: envvalue
     - name: arrayvalz
     - name: eventvalue
   tasks:
@@ -106,6 +109,8 @@ spec:
           value: $(params.arrayvalz)
         - name: eventvalue
           value: $(params.eventvalue)
+        - name: envvalue
+          value: $(params.envvalue)
     - name: sample-out-task-script
       taskRef:
         name: sample-out-task-script
@@ -135,6 +140,7 @@ spec:
     - name: first-two
     - name: second-one
     - name: second-two
+    - name: envvalue
     - name: eventvalue
       default: "its not this EV"
     - name: message
@@ -167,6 +173,8 @@ spec:
           value: $(params.event-array-val0)
         - name: eventvalue
           value: $(params.eventvalue)
+        - name: envvalue
+          value: $(params.envvalue)
 ---
 apiVersion: tekton.dev/v1beta1
 kind: TriggerBinding
@@ -182,6 +190,8 @@ spec:
       value: $(event.body.array-hyp-is[0])
     - name: eventvalue
       value: $(event.body.simpleval)
+    - name: envvalue
+      value: $(env.test.dashboard_url)
 ---
 apiVersion: tekton.dev/v1beta1
 kind: TriggerBinding
