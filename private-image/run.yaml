@@ -5,7 +5,7 @@ metadata:
 spec:
   steps:
   - name: task-one-step-one
-    image: sodonovan/private-repo:my-private-ubuntu
+    image: ubuntu
     command: ["/bin/bash"]
     args: ['-c', 'for i in {1..2}; do echo GONLOGGIN 1 && sleep 1; done;'] # tests that targetpath works
   - name: task-one-step-two
@@ -71,7 +71,6 @@ spec:
     - apiVersion: v1
       kind: ServiceAccount
       imagePullSecrets:
-        - name: stevespullsecret
         - name: icrsecret
       metadata:
         name: sa-pullsecret
