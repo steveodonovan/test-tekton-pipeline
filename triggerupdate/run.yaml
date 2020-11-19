@@ -41,7 +41,7 @@ spec:
         - name: envvalue
           value: $(params.envvalue)
       command: ['bash']
-      args: ['-c', 'echo " f1 - $f1, f2 - $f2, s1 - $s1, s2 - $s2, arrayvalz - $arrayvalz, eventval - $eventvalue", envvalue - $envvalue" && echo "secprop $SEC_PROP" | tee $(results.output.path)'] 
+      args: ['-c', 'echo " f1 - $f1, f2 - $f2, s1 - $s1, s2 - $s2, arrayvalz - $arrayvalz, eventval - $eventvalue, envvalue - $envvalue " && echo "secprop $SEC_PROP" | tee $(results.output.path)'] 
 ---
 apiVersion: tekton.dev/v1beta1
 kind: Task
