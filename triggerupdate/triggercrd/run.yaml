@@ -1,0 +1,236 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: sample-out-task
+spec:
+  results:
+  - description: /tmp/output
+    name: output
+  params:
+    - name: buildnumber
+      description: test
+    - name: secprop
+      description: test
+    - name: first-one
+    - name: first-two
+    - name: second-one
+    - name: second-two
+    - name: arrayvalz
+    - name: eventvalue
+    - name: envvalue
+    - name: envjson
+  steps:
+    - name: task-two-step-four
+      image: ubuntu
+      env:
+        - name: BUILD_NUMBER
+          value: $(params.buildnumber)
+        - name: SEC_PROP
+          value: $(params.secprop)
+        - name: f1
+          value: $(params.first-one)
+        - name: f2
+          value:  $(params.first-two)
+        - name: s1
+          value: $(params.second-one)
+        - name: s2
+          value: $(params.second-two)
+        - name: arrayvalz
+          value: $(params.arrayvalz)
+        - name: eventvalue
+          value: $(params.eventvalue)
+        - name: envvalue
+          value: $(params.envvalue)
+        - name: envjson
+          value: $(params.envjson)
+      command: ['bash']
+      args: ['-c', 'echo " f1 - $f1, f2 - $f2, s1 - $s1, s2 - $s2, arrayvalz - $arrayvalz, eventval - $eventvalue, envvalue - $envvalue, envjson - $envjson " && echo "secprop $SEC_PROP" | tee $(results.output.path)'] 
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: sample-out-task-script
+spec:
+  params:
+    - name: buildnumber
+      description: test
+    - name: secprop
+      description: test   
+    - name: prevout
+      description: test
+  steps:
+    - name: scriptstep
+      image: ubuntu
+      env:
+        - name: BUILD_NUMBER
+          value: $(params.buildnumber)
+        - name: PREV
+          value: $(params.prevout)
+        - name: SEC_PROP
+          value: $(params.secprop)
+      script: |
+        #!/bin/bash
+        echo "previs $PREV"
+        echo "test script value $SEC_PROP"
+        exit 0
+
+---
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: pipeline
+spec:
+  params:
+    - name: buildnumber
+      description: the pipeline pvc name
+    - name: secprop
+      description: test
+    - name: first-one
+    - name: first-two
+    - name: second-one
+    - name: second-two
+    - name: envvalue
+    - name: envjson
+    - name: arrayvalz
+    - name: eventvalue
+  tasks:
+    - name: sample-out-task
+      taskRef:
+        name: sample-out-task
+      params:
+        - name: buildnumber
+          value: $(params.buildnumber)
+        - name: secprop
+          value: $(params.secprop)
+        - name: first-one
+          value: $(params.first-one)
+        - name: first-two
+          value:  $(params.first-two)
+        - name: second-one
+          value: $(params.second-one)
+        - name: second-two
+          value: $(params.second-two)
+        - name: arrayvalz
+          value: $(params.arrayvalz)
+        - name: eventvalue
+          value: $(params.eventvalue)
+        - name: envvalue
+          value: $(params.envvalue)
+        - name: envjson
+          value: $(params.envjson)
+    - name: sample-out-task-script
+      taskRef:
+        name: sample-out-task-script
+      params:
+        - name: buildnumber
+          value: $(params.buildnumber)
+        - name: prevout
+          value: $(tasks.sample-out-task.results.output)
+        - name: secprop
+          value: $(params.secprop)
+---
+apiVersion: tekton.dev/v1beta1
+kind: TriggerTemplate
+metadata:
+  name: template
+spec:
+  params:
+    - name: buildnumber
+      description: thebuildnuminput
+      default: buildnumberfailedjerh
+    - name: secprop
+      description: secval
+    - name: gitrevision
+      description: The git revision
+      default: master
+    - name: first-one
+    - name: first-two
+    - name: second-one
+    - name: second-two
+    - name: envvalue
+    - name: envvalue
+    - name: eventvalue
+      default: "its not this EV"
+    - name: message
+      description: The message to print
+      default: This is the default message
+    - name: event-array-val0
+      default: "its not this ARV"
+  resourcetemplates:
+    - apiVersion: tekton.dev/v1beta1
+      kind: PipelineRun
+      metadata:
+        name: pipelinerun-$(uid)
+      spec:
+        pipelineRef:
+            name: pipeline
+        params:
+        - name: buildnumber
+          value: $(params.buildnumber)
+        - name: secprop
+          value: $(params.secprop)
+        - name: first-one
+          value: $(tt.params.first-one)
+        - name: first-two
+          value: $(params.first-two)
+        - name: second-one
+          value: $(params.second-one)
+        - name: second-two
+          value: $(params.second-two)
+        - name: arrayvalz
+          value: $(params.event-array-val0)
+        - name: eventvalue
+          value: $(params.eventvalue)
+        - name: envvalue
+          value: $(params.envvalue)
+        - name: envjson
+          value: $(params.envjson)
+---
+apiVersion: tekton.dev/v1beta1
+kind: TriggerBinding
+metadata:
+  name: binding
+spec:
+  params:
+    - name: first-one
+      value: "first-param-one-value"
+    - name: first-two
+      value: $(params.first-two)
+    - name: event-array-val0
+      value: $(event.body.array-hyp-is[0])
+    - name: eventvalue
+      value: $(event.body.simpleval)
+    - name: envvalue
+      value: $(env.test.dashboard_url)
+    - name: envjson
+      value: $(env.test)
+---
+apiVersion: tekton.dev/v1beta1
+kind: TriggerBinding
+metadata:
+  name: second-binding
+spec:
+  params:
+    - name: second-one
+      value: "second-param-one-value"
+---
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: Trigger
+metadata:
+  name: trigger
+spec:
+  bindings:
+    - name: binding
+    - ref: second-binding
+    - name: second-two
+      value: $(params.monstrosity)
+  template:
+    name: template
+---
+apiVersion: tekton.dev/v1beta1
+kind: EventListener
+metadata:
+  name: listener
+spec:
+  triggers:
+    - triggerRef: trigger
