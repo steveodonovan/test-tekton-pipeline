@@ -1,0 +1,111 @@
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: git-clone-repo
+spec:
+  params:
+    - name: repository
+    - name: gitrevision
+  steps:
+  - name: quickandonelinethirdt1
+    env:
+      - name: REPO
+        value: $(params.repository)
+      - name: REV
+        value: $(params.gitrevision)
+    image: ubuntu
+    command: ['bash']
+    args: ['-c', 'echo "REPO - $REPO rev - $REV"'] 
+---
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: pipeline
+spec:
+  params:
+    - name: repository
+    - name: gitrevision
+  tasks:
+    - name: clone-repo
+      taskRef:
+        name: git-clone-repo
+      params:
+        - name: repository
+          value: $(params.repository)
+        - name: gitrevision
+          value: $(params.gitrevision)
+---
+apiVersion: tekton.dev/v1alpha1
+kind: TriggerTemplate
+metadata:
+  name: pipeline-template
+spec:
+  params:
+    - name: gitrevision
+    - name: repository
+  resourcetemplates:
+    - apiVersion: tekton.dev/v1alpha1
+      kind: PipelineRun
+      metadata:
+        generateName: cutting-down-trees-run
+        labels:
+          triggertemplated: "true"
+          generatedBy: "triggers-example"
+      spec:
+        params:
+        - name: revision
+          value: $(params.gitrevision)
+        - name: repository
+          value: $(params.repository)
+        pipelineRef:
+          name: pipeline
+---
+apiVersion: tekton.dev/v1alpha1
+kind: TriggerBinding
+metadata:
+  name: pipeline-binding
+spec:
+  params:
+    - name: repository
+      value: $(event.repository.url)
+    - name: revision
+      value: $(event.head)
+---
+apiVersion: tekton.dev/v1alpha1
+kind: TriggerBinding
+metadata:
+  name: manual-pipeline-binding
+spec:
+  params:
+    - name: revision
+      value: v0.32.0
+    - name: repository
+      value: https://github.com/GoogleContainerTools/skaffold
+---
+apiVersion: tekton.dev/v1alpha1
+kind: EventListener
+metadata:
+  name: listener
+spec:
+  triggers:
+    - binding:
+        name: pipeline-binding
+      template:
+        name: pipeline-template
+      params:
+        - name: message
+          value: Hello from the Git Triggers EventListener!
+---
+apiVersion: tekton.dev/v1alpha1
+kind: EventListener
+metadata:
+  name: manual-listener
+spec:
+  triggers:
+    - binding:
+        name: manual-pipeline-binding
+      template:
+        name: pipeline-template
+      params:
+        - name: message
+          value: Hello from the Manual Triggers EventListener!
