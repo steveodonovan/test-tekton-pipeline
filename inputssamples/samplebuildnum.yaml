@@ -20,7 +20,7 @@ spec:
         - name: SEC_PROP
           value: $(params.secprop)
       command: ['bash']
-      args: ['-c', 'echo "secprop $SEC_PROP" | tee $(results.output.path)'] 
+      args: ['-c', 'echo "secprop $SEC_PROP" && echo "secprop $SEC_PROP" && echo "secprop $SEC_PROP" && echo "secprop $SEC_PROP" | tee $(results.output.path)'] 
 ---
 apiVersion: tekton.dev/v1beta1
 kind: Task
