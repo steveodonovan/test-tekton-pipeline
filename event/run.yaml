@@ -68,7 +68,7 @@ spec:
   params:
     - name: repository
       value: $(event.repository.url)
-    - name: revision
+    - name: gitrevision
       value: $(event.head)
 ---
 apiVersion: tekton.dev/v1alpha1
