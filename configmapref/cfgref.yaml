@@ -28,7 +28,7 @@ spec:
             key: vault-role-secret
     image: ubuntu
     command: ["/bin/bash"]
-    args: ['-c', 'echo $SECURE_TEST && echo $SECURE_TEST-$SECURE_TEST-$SECURE_TEST && && echo $ENV && echo $REGION && echo $ROLESEC'] # tests that targetpath works
+    args: ['-c', 'echo $SECURE_TEST && echo $SECURE_TEST-$SECURE_TEST-$SECURE_TEST && echo $ENV && echo $ENV && echo $SECURE_TEST echo $REGION && echo $ROLESEC'] # tests that targetpath works
   - name: task-one-step-two
     image: ubuntu
     command: ['bash']
