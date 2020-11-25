@@ -79,4 +79,3 @@ spec:
         name: pipeline-binding
       template:
         name: pipeline-template
-          value: Hello from the Manual Triggers EventListener!
