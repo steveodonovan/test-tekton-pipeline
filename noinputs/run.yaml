@@ -1,0 +1,82 @@
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task1
+spec:
+  steps:
+  - name: task-one-step-one
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'for i in {1..2}; do echo WARNING: GONLOGGIN 1 && sleep 1; done;'] # tests that targetpath works
+  - name: task-one-step-two
+    image: ubuntu
+    command: ['bash']
+    args: ['-c', 'for i in {1..2}; do echo GONLOGGIN 2 && sleep 1; done;'] 
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: task2
+spec:
+  steps:
+  - name: task-two-step-one
+    image: ubuntu
+    command: ["/bin/bash"]
+    args: ['-c', 'for i in {1..2}; do echo GONLOGGIN 1 && sleep 1; done;'] # tests that targetpath works
+---
+#The Output of the first Task (git resource) create-file is given as an `Input`
+# to the next `Task` check-stuff-file-exists using`from` clause.
+
+apiVersion: tekton.dev/v1alpha1
+kind: Pipeline
+metadata:
+  name: 999-working-logs-long
+spec:
+  tasks:
+  - name: task1
+    taskRef:
+      name: task1
+  - name: task2
+    taskRef:
+      name: task2
+---
+apiVersion: tekton.dev/v1alpha1
+kind: TriggerTemplate
+metadata:
+  name: pipeline-template
+spec:
+  resourcetemplates:
+    - apiVersion: tekton.dev/v1alpha1
+      kind: PipelineRun
+      metadata:
+        generateName: cutting-down-trees-run
+        labels:
+          triggertemplated: "true"
+          generatedBy: "triggers-example"
+      spec:
+        pipelineRef:
+          name: 999-working-logs-long
+---
+apiVersion: tekton.dev/v1alpha1
+kind: TriggerBinding
+metadata:
+  name: pipeline-binding
+spec:
+---
+apiVersion: tekton.dev/v1alpha1
+kind: TriggerBinding
+metadata:
+  name: manual-pipeline-binding
+spec:
+---
+apiVersion: tekton.dev/v1alpha1
+kind: EventListener
+metadata:
+  name: listener
+spec:
+  triggers:
+    - binding:
+        name: pipeline-binding
+      template:
+        name: pipeline-template
+          value: Hello from the Manual Triggers EventListener!
