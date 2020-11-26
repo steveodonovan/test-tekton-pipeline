@@ -203,7 +203,7 @@ spec:
     - name: envvalue
       value: $(env.test.dashboard_url)
     - name: envjson
-      value: $(env.test)
+      value: $(env.privateworker)
 ---
 apiVersion: tekton.dev/v1beta1
 kind: TriggerBinding
