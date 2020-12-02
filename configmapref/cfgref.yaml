@@ -43,7 +43,7 @@ spec:
     image: ubuntu
     command: ['bash']
     envFrom:
-      - secretRef::
+      - secretRef:
           name: secure-properties
     args: ['-c', 'for i in {1..10}; do echo GONLOGGIN 2 && env && sleep 1; done;'] 
 ---
