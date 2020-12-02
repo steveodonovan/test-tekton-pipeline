@@ -32,10 +32,10 @@ spec:
           configMapKeyRef:
             name: environment-properties
             key: vault-role-secret
-        - name: BUILD_NUMBER
-          value: $(params.buildnumber)
-        - name: SEC_PROP
-          value: $(params.secprop)
+      - name: BUILD_NUMBER
+        value: $(params.buildnumber)
+      - name: SEC_PROP
+        value: $(params.secprop)
     image: ubuntu
     command: ["/bin/bash"]
     args: ['-c', 'echo $SECURE_TEST && echo $SECURE_TEST-$SECURE_TEST-$SECURE_TEST && echo $ENV && echo $ENV && echo as param $SEC_PROP-$SEC_PROP-$SEC_PROP && echo $SECURE_TEST echo $REGION && echo $ROLESEC'] # tests that targetpath works
