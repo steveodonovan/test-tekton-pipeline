@@ -3,6 +3,12 @@ kind: Task
 metadata:
   name: task1
 spec:
+  params:
+    - name: buildnumber
+      description: test
+      default: defaultbuildnum
+    - name: secprop
+      description: test 
   steps:
   - name: task-one-step-one
     env:
@@ -26,9 +32,13 @@ spec:
           configMapKeyRef:
             name: environment-properties
             key: vault-role-secret
+        - name: BUILD_NUMBER
+          value: $(params.buildnumber)
+        - name: SEC_PROP
+          value: $(params.secprop)
     image: ubuntu
     command: ["/bin/bash"]
-    args: ['-c', 'echo $SECURE_TEST && echo $SECURE_TEST-$SECURE_TEST-$SECURE_TEST && echo $ENV && echo $ENV && echo $SECURE_TEST echo $REGION && echo $ROLESEC'] # tests that targetpath works
+    args: ['-c', 'echo $SECURE_TEST && echo $SECURE_TEST-$SECURE_TEST-$SECURE_TEST && echo $ENV && echo $ENV && echo as param $SEC_PROP-$SEC_PROP-$SEC_PROP && echo $SECURE_TEST echo $REGION && echo $ROLESEC'] # tests that targetpath works
   - name: task-one-step-two
     image: ubuntu
     command: ['bash']
@@ -56,8 +66,18 @@ kind: Pipeline
 metadata:
   name: 999-working-logs-long
 spec:
+  params:
+    - name: buildnumber
+      description: the pipeline pvc name
+    - name: secprop
+      description: test
   tasks:
   - name: task1
+    params:
+      - name: buildnumber
+        value: $(params.buildnumber)
+      - name: secprop
+        value: $(params.secprop)
     taskRef:
       name: task1
   - name: task2
@@ -78,6 +98,11 @@ spec:
     - name: message
       description: The message to print
       default: This is the default message
+    - name: buildnumber
+      description: thebuildnuminput
+      default: buildnumberfailedjerh
+    - name: secprop
+      description: secval
   resourcetemplates:
     - apiVersion: tekton.dev/v1alpha1
       kind: PipelineRun
@@ -89,6 +114,11 @@ spec:
       spec:
         pipelineRef:
           name: 999-working-logs-long
+        params:
+        - name: buildnumber
+          value: $(params.buildnumber)
+        - name: secprop
+          value: $(params.secprop)
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: TriggerBinding
