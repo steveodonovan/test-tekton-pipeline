@@ -32,7 +32,10 @@ spec:
   - name: task-one-step-two
     image: ubuntu
     command: ['bash']
-    args: ['-c', 'for i in {1..2}; do echo GONLOGGIN 2 && sleep 1; done;'] 
+    envFrom:
+      - secretRef::
+          name: secure-properties
+    args: ['-c', 'for i in {1..10}; do echo GONLOGGIN 2 && env && sleep 1; done;'] 
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: Task
@@ -43,7 +46,10 @@ spec:
   - name: task-two-step-one
     image: ubuntu
     command: ["/bin/bash"]
-    args: ['-c', 'for i in {1..2}; do echo GONLOGGIN 1 && sleep 1; done;'] # tests that targetpath works
+    envFrom:
+      - secretRef::
+          name: secure-properties
+    args: ['-c', 'for i in {1..10}; do echo GONLOGGIN 2 && env && sleep 1; done;'] 
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: Pipeline
