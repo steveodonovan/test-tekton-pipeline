@@ -5,9 +5,14 @@ metadata:
 spec:
   steps:
   - name: task-one-step-one
+    envFrom:
+      - secretRef:
+          name: secure-properties
+      - configMapRef:
+          name: environment-properties
     image: ubuntu
     command: ["/bin/bash"]
-    args: ['-c', 'for i in {1..2}; do echo WARNING: GONLOGGIN 1 && sleep 1; done;'] # tests that targetpath works
+    args: ['-c', 'env && echo done'] # tests that targetpath works
   - name: task-one-step-two
     image: ubuntu
     command: ['bash']
