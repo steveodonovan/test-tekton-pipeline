@@ -113,7 +113,7 @@ metadata:
 spec:
   params:
     - name: buildnumber
-      value: $(header.x-github-event)
+      value: $(event.action)
     - name: revision
       value: "master"
 ---
