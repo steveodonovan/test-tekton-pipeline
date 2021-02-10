@@ -113,9 +113,9 @@ metadata:
 spec:
   params:
     - name: buildnumber
-      value: $(header.x-github-event)
-    - name: revision
-      value: "master"
+      value: $(header.X-GitHub-Event)
+    - name: secprop
+      value: $(event.action)
 ---
 apiVersion: tekton.dev/v1beta1
 kind: EventListener
